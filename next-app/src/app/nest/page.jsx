@@ -34,22 +34,19 @@ export default function NestPage() {
     <div className="pt-32 pb-20 px-6">
       <div className="max-w-7xl mx-auto px-4 md:px-0">
         <div className="relative group mb-14 md:mb-20 pt-12 md:pt-16">
-          {/* Architectural 3D Layers (Shifted Up for 'Half Visible' look) */}
-          <span
-            className="absolute -top-6 -right-2 md:-top-12 md:-right-4 font-sync font-bold text-4xl md:text-7xl uppercase tracking-tighter select-none pointer-events-none whitespace-nowrap opacity-[0.03] text-white"
-            style={{ WebkitTextStroke: '1px rgba(255,255,255,0.2)', textStroke: '1px rgba(255,255,255,0.2)', color: 'transparent' }}
-          >
-            Meet the Elite Circle
-          </span>
-          <span className="absolute -top-3 -right-1 md:-top-6 md:-right-2 text-[#FF6B00] opacity-[0.06] font-sync font-bold text-4xl md:text-7xl uppercase tracking-tighter select-none pointer-events-none whitespace-nowrap">
-            Meet the Elite Circle
+          <span className="absolute -top-3 left-0 text-[#FF6B00] opacity-[0.06] font-sync font-bold text-4xl md:text-8xl uppercase tracking-tighter select-none pointer-events-none whitespace-nowrap">
+            Human Capital
           </span>
 
           <h2 className="relative z-10 text-4xl md:text-7xl font-sync font-bold uppercase tracking-tighter text-white leading-none">
             Meet the <span className="text-[#FF6B00]">Elite Circle</span>
           </h2>
+          
+          <p className="max-w-2xl mt-6 text-slate-400 text-xs md:text-sm uppercase tracking-widest leading-relaxed font-medium">
+            8 Senior architects, Zero overhead. Direct access to mastery.
+          </p>
 
-          <div className="h-[2px] w-16 bg-[#00E5FF] mt-6 md:mt-8 opacity-40"></div>
+          <div className="h-[2px] w-16 bg-[#FF6B00] mt-8 opacity-40"></div>
         </div>
 
         <div className="flex flex-wrap gap-2 md:gap-3 mb-10 text-[10px] md:text-xs uppercase font-bold tracking-[0.2em] md:tracking-widest">

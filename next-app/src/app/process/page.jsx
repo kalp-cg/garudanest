@@ -8,22 +8,20 @@ export default function ProcessPage() {
     <div className="pt-32 pb-20 px-6 font-space">
       <div className="max-w-7xl mx-auto px-4 md:px-0">
         {/* Header Section */}
-        <div className="relative group mb-20 md:mb-24 pt-12 md:pt-16">
-          <span
-            className="absolute -top-6 -right-2 md:-top-12 md:-right-4 font-sync font-bold text-4xl md:text-7xl uppercase tracking-tighter select-none pointer-events-none whitespace-nowrap opacity-[0.03] text-white"
-            style={{ WebkitTextStroke: '1px rgba(255,255,255,0.2)', textStroke: '1px rgba(255,255,255,0.2)', color: 'transparent' }}
-          >
-            How Elite Systems Are Built
-          </span>
-          <span className="absolute -top-3 -right-1 md:-top-6 md:-right-2 text-[#FF6B00] opacity-[0.06] font-sync font-bold text-4xl md:text-7xl uppercase tracking-tighter select-none pointer-events-none whitespace-nowrap">
-            How Elite Systems Are Built
+        <div className="relative group mb-16 md:mb-24 pt-12 md:pt-16">
+          <span className="absolute -top-3 left-0 text-[#FF6B00] opacity-[0.06] font-sync font-bold text-4xl md:text-8xl uppercase tracking-tighter select-none pointer-events-none whitespace-nowrap">
+            System Architecture
           </span>
 
           <h2 className="relative z-10 text-4xl md:text-7xl font-sync font-bold uppercase tracking-tighter text-white leading-none">
-            How Elite Systems <span className="text-[#FF6B00]">Are Built</span>
+            Engineering <span className="text-[#FF6B00]">Protocol</span>
           </h2>
+          
+          <p className="max-w-2xl mt-6 text-slate-400 text-xs md:text-sm uppercase tracking-widest leading-relaxed font-medium">
+            Radical transparency meets architectural grit. How we build certainty.
+          </p>
 
-          <div className="h-[2px] w-16 bg-[#FF6B00] mt-6 md:mt-8 opacity-40"></div>
+          <div className="h-[2px] w-16 bg-[#FF6B00] mt-8 opacity-40"></div>
         </div>
 
         {/* Interactive Showcase */}

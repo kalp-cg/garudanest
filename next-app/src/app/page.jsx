@@ -177,9 +177,10 @@ export default function App() {
 
   const handleHireSubmit = async (event) => {
     event.preventDefault();
-    setHireStatus({ type: 'loading', message: 'Sending inquiry...' });
+    const form = event.currentTarget;
+    setHireStatus({ type: 'loading', message: 'Establishing Uplink...' });
 
-    const formData = new FormData(event.currentTarget);
+    const formData = new FormData(form);
     const payload = {
       companyName: String(formData.get('companyName') || ''),
       workEmail: String(formData.get('workEmail') || ''),
@@ -194,22 +195,21 @@ export default function App() {
       });
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Request failed');
-      }
+      if (!response.ok) throw new Error(data.error || 'UPLINK_FAILURE');
 
-      setHireStatus({ type: 'success', message: `Inquiry received. Ref ${data.referenceId}` });
-      event.currentTarget.reset();
+      setHireStatus({ type: 'success', message: `Protocol Initiated. RefID: ${data.referenceId}` });
+      form.reset();
     } catch (error) {
-      setHireStatus({ type: 'error', message: error.message || 'Could not submit inquiry.' });
+      setHireStatus({ type: 'error', message: error.message || 'NODE_OFFLINE' });
     }
   };
 
   const handleJoinSubmit = async (event) => {
     event.preventDefault();
-    setJoinStatus({ type: 'loading', message: 'Submitting profile...' });
+    const form = event.currentTarget;
+    setJoinStatus({ type: 'loading', message: 'Syncing Credentials...' });
 
-    const formData = new FormData(event.currentTarget);
+    const formData = new FormData(form);
     const payload = {
       fullName: String(formData.get('fullName') || ''),
       email: String(formData.get('email') || ''),
@@ -225,14 +225,12 @@ export default function App() {
       });
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Request failed');
-      }
+      if (!response.ok) throw new Error(data.error || 'UPLINK_FAILURE');
 
-      setJoinStatus({ type: 'success', message: `Profile received. Ref ${data.referenceId}` });
-      event.currentTarget.reset();
+      setJoinStatus({ type: 'success', message: `Profile Synced. RefID: ${data.referenceId}` });
+      form.reset();
     } catch (error) {
-      setJoinStatus({ type: 'error', message: error.message || 'Could not submit profile.' });
+      setJoinStatus({ type: 'error', message: error.message || 'NODE_OFFLINE' });
     }
   };
 
@@ -499,42 +497,58 @@ export default function App() {
             Ready to <span className="text-[#00E5FF]">Soar</span> with Us?
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            <form id="hire" onSubmit={handleHireSubmit} className="bento-card p-8">
-              <div className="flex items-center gap-3 mb-6">
-                <Briefcase size={18} className="text-[#00E5FF]" />
-                <span className="text-xs font-bold uppercase tracking-widest">I Need a Team // Hire Us</span>
+            <form id="hire" onSubmit={handleHireSubmit} className="bento-card p-8 group">
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-3">
+                  <Briefcase size={20} className="text-[#00E5FF]" />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Client Inquiry // Fast-Track</span>
+                </div>
+                <a href="/hire" className="text-[9px] font-bold uppercase tracking-widest text-white/20 group-hover:text-[#FF6B00] transition-colors flex items-center gap-1.5">
+                  Full Audit <ArrowRight size={10} />
+                </a>
               </div>
-              <div className="space-y-3">
-                <input name="companyName" required type="text" placeholder="Company Name" className="w-full bg-transparent border border-white/20 p-3 text-xs uppercase outline-none focus:border-[#FF6B00]" />
-                <input name="workEmail" required type="email" placeholder="Work Email" className="w-full bg-transparent border border-white/20 p-3 text-xs uppercase outline-none focus:border-[#FF6B00]" />
-                <textarea name="projectScope" required placeholder="Project Scope" rows={4} className="w-full bg-transparent border border-white/20 p-3 text-xs uppercase outline-none focus:border-[#FF6B00]" />
+              
+              <h3 className="text-xl font-sync font-bold uppercase mb-6 leading-tight">Elite <br/> Consultation</h3>
+
+              <div className="space-y-4">
+                <input name="companyName" required type="text" placeholder="ENTITY_NAME" className="w-full bg-transparent border-b border-white/10 p-3 text-xs uppercase outline-none focus:border-[#FF6B00] transition-colors" />
+                <input name="workEmail" required type="email" placeholder="SECURE_EMAIL" className="w-full bg-transparent border-b border-white/10 p-3 text-xs uppercase outline-none focus:border-[#FF6B00] transition-colors" />
+                <textarea name="projectScope" required placeholder="Describe the mission-critical bottleneck..." rows={3} className="w-full bg-transparent border-b border-white/10 p-3 text-xs uppercase outline-none focus:border-[#FF6B00] transition-colors resize-none" />
               </div>
-              <button disabled={hireStatus.type === 'loading'} className="mt-4 w-full bg-[#FF6B00] text-black py-3.5 font-black text-xs uppercase hover:bg-[#00E5FF] transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
-                {hireStatus.type === 'loading' ? 'Sending...' : 'Send Inquiry'}
+              <button disabled={hireStatus.type === 'loading'} className="mt-8 w-full bg-[#FF6B00] text-black py-4 font-black text-xs uppercase hover:bg-[#00E5FF] transition-all shadow-[0_0_20px_rgba(255,107,0,0.2)] disabled:opacity-60">
+                {hireStatus.type === 'loading' ? 'Establishing Uplink...' : 'Request Consultation'}
               </button>
               {hireStatus.type !== 'idle' && (
-                <p className={`mt-3 text-[10px] uppercase ${hireStatus.type === 'success' ? 'text-[#22C55E]' : hireStatus.type === 'error' ? 'text-red-400' : 'text-[#00E5FF]'}`}>
+                <p className={`mt-4 text-[10px] uppercase font-bold text-center tracking-widest ${hireStatus.type === 'success' ? 'text-[#22C55E]' : hireStatus.type === 'error' ? 'text-red-400' : 'text-[#00E5FF]'}`}>
                   {hireStatus.message}
                 </p>
               )}
             </form>
 
-            <form onSubmit={handleJoinSubmit} className="bento-card p-8">
-              <div className="flex items-center gap-3 mb-6">
-                <User size={18} className="text-[#FF6B00]" />
-                <span className="text-xs font-bold uppercase tracking-widest">I am a Developer // Join the Nest</span>
+            <form onSubmit={handleJoinSubmit} className="bento-card p-8 group">
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-3">
+                  <User size={20} className="text-[#FF6B00]" />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Join the Nest // Developers</span>
+                </div>
+                <a href="/join" className="text-[9px] font-bold uppercase tracking-widest text-white/20 group-hover:text-[#00E5FF] transition-colors flex items-center gap-1.5">
+                  Requirements <ArrowRight size={10} />
+                </a>
               </div>
-              <div className="space-y-3">
-                <input name="fullName" required type="text" placeholder="Full Name" className="w-full bg-transparent border border-white/20 p-3 text-xs uppercase outline-none focus:border-[#00E5FF]" />
-                <input name="email" required type="email" placeholder="Email" className="w-full bg-transparent border border-white/20 p-3 text-xs uppercase outline-none focus:border-[#00E5FF]" />
-                <input name="role" required type="text" placeholder="Role (Frontend / Backend / AI / DevOps)" className="w-full bg-transparent border border-white/20 p-3 text-xs uppercase outline-none focus:border-[#00E5FF]" />
-                <input name="portfolio" type="url" placeholder="Portfolio/GitHub" className="w-full bg-transparent border border-white/20 p-3 text-xs uppercase outline-none focus:border-[#00E5FF]" />
+
+              <h3 className="text-xl font-sync font-bold uppercase mb-6 leading-tight">Elite <br/> Recruitment</h3>
+
+              <div className="space-y-4">
+                <input name="fullName" required type="text" placeholder="FULL_NAME" className="w-full bg-transparent border-b border-white/10 p-3 text-xs uppercase outline-none focus:border-[#00E5FF] transition-colors" />
+                <input name="email" required type="email" placeholder="SECURE_EMAIL" className="w-full bg-transparent border-b border-white/10 p-3 text-xs uppercase outline-none focus:border-[#00E5FF] transition-colors" />
+                <input name="role" required type="text" placeholder="STACK_DOMAIN" className="w-full bg-transparent border-b border-white/10 p-3 text-xs uppercase outline-none focus:border-[#00E5FF] transition-colors" />
+                <input name="portfolio" type="url" placeholder="GITHUB_REPO" className="w-full bg-transparent border-b border-white/10 p-3 text-xs uppercase outline-none focus:border-[#00E5FF] transition-colors" />
               </div>
-              <button disabled={joinStatus.type === 'loading'} className="mt-4 w-full bg-[#00E5FF] text-black py-3.5 font-black text-xs uppercase hover:bg-[#FF6B00] transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
-                {joinStatus.type === 'loading' ? 'Submitting...' : 'Submit Profile'}
+              <button disabled={joinStatus.type === 'loading'} className="mt-8 w-full bg-[#00E5FF] text-black py-4 font-black text-xs uppercase hover:bg-[#FF6B00] transition-all shadow-[0_0_20px_rgba(0,229,255,0.2)] disabled:opacity-60">
+                {joinStatus.type === 'loading' ? 'Submitting...' : 'Submit Credentials'}
               </button>
               {joinStatus.type !== 'idle' && (
-                <p className={`mt-3 text-[10px] uppercase ${joinStatus.type === 'success' ? 'text-[#22C55E]' : joinStatus.type === 'error' ? 'text-red-400' : 'text-[#00E5FF]'}`}>
+                <p className={`mt-4 text-[10px] uppercase font-bold text-center tracking-widest ${joinStatus.type === 'success' ? 'text-[#22C55E]' : joinStatus.type === 'error' ? 'text-red-400' : 'text-[#00E5FF]'}`}>
                   {joinStatus.message}
                 </p>
               )}

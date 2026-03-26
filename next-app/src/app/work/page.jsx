@@ -8,23 +8,20 @@ export default function WorkPage() {
   return (
     <div className="pt-32 pb-20 px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="relative group mb-20 md:mb-24 px-4 md:px-0 pt-12 md:pt-16">
-          {/* Architectural 3D Layers (Shifted Up for 'Half Visible' look) */}
-          {/* <span
-            className="absolute -top-6 -right-2 md:-top-12 md:-right-4 font-sync font-bold text-5xl md:text-7xl uppercase tracking-tighter select-none pointer-events-none whitespace-nowrap opacity-[0.03] text-white"
-            style={{ WebkitTextStroke: '1px rgba(255,255,255,0.2)', textStroke: '1px rgba(255,255,255,0.2)', color: 'transparent' }}
-          >
-            Projects That Soared
-          </span> */}
-          <span className="absolute -top-3 -right-1 md:-top-6 md:-right-2 text-[#FF6B00] opacity-[0.06] font-sync font-bold text-4xl md:text-7xl uppercase tracking-tighter select-none pointer-events-none whitespace-nowrap">
-            Projects That Soared
+        <div className="relative group mb-16 md:mb-24 pt-12 md:pt-16">
+          <span className="absolute -top-3 left-0 text-[#FF6B00] opacity-[0.06] font-sync font-bold text-4xl md:text-8xl uppercase tracking-tighter select-none pointer-events-none whitespace-nowrap">
+            Elite Portfolio
           </span>
 
           <h2 className="relative z-10 text-4xl md:text-7xl font-sync font-bold uppercase tracking-tighter text-white leading-none">
             Projects That <span className="text-[#FF6B00]">Soared</span>
           </h2>
+          
+          <p className="max-w-2xl mt-6 text-slate-400 text-xs md:text-sm uppercase tracking-widest leading-relaxed font-medium">
+            Elite engineering outcomes delivered for high-growth technical teams.
+          </p>
 
-          <div className="h-[2px] w-16 bg-[#FF6B00] mt-6 md:mt-8 opacity-40"></div>
+          <div className="h-[2px] w-16 bg-[#FF6B00] mt-8 opacity-40"></div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 px-4 md:px-0">
           {projects.map((project, index) => (

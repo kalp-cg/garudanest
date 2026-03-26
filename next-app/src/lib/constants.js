@@ -46,3 +46,17 @@ export const activities = [
   "Completed security hardening for fintech API gateway.",
   "Released hiring workflow v2 with 28% faster screening.",
 ];
+
+export const SERVICES = [
+  { id: "ai", label: "AI & Neural Systems", description: "RAG, LLM orchestration, and custom model deployment." },
+  { id: "infra", label: "Core Infrastructure", description: "Scalable backend, database optimization, and cloud architecture." },
+  { id: "web", label: "Elite Web Platforms", description: "High-performance Next.js systems with premium UX polish." },
+  { id: "audit", label: "Security & Performance Audit", description: "Hardening and bottleneck elimination for existing systems." }
+];
+
+export const BUDGET_RANGES = [
+  { id: "tier1", label: "$10k — $25k", value: "10-25k" },
+  { id: "tier2", label: "$25k — $50k", value: "25-50k" },
+  { id: "tier3", label: "$50k — $100k", value: "50-100k" },
+  { id: "tier4", label: "$100k+", value: "100k+" }
+];

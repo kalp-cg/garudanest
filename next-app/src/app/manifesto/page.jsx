@@ -24,22 +24,19 @@ export default function ManifestoPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-32">
           <div>
             <div className="relative group mb-16 md:mb-24 pt-16 md:pt-20">
-              {/* Architectural 3D Layers (Shifted Up for 'Half Visible' look) */}
-              <span
-                className="absolute -top-6 -right-2 md:-top-16 md:-right-4 font-sync font-black text-5xl md:text-8xl uppercase tracking-tighter select-none pointer-events-none leading-none whitespace-nowrap opacity-[0.02] text-white"
-                style={{ WebkitTextStroke: '1px rgba(255,255,255,0.1)', textStroke: '1px rgba(255,255,255,0.1)', color: 'transparent' }}
-              >
-                THE CODE IS LAW
-              </span>
-              <span className="absolute -top-3 -right-1 md:-top-8 md:-right-2 text-[#FF6B00] opacity-[0.06] font-sync font-black text-5xl md:text-8xl uppercase tracking-tighter select-none pointer-events-none leading-none whitespace-nowrap">
-                THE CODE IS LAW
+              <span className="absolute -top-3 left-0 text-[#FF6B00] opacity-[0.06] font-sync font-bold text-4xl md:text-8xl uppercase tracking-tighter select-none pointer-events-none whitespace-nowrap">
+                Core Philosophy
               </span>
 
-              <h2 className="relative z-10 text-5xl md:text-8xl font-sync font-black leading-none uppercase text-white">
-                THE <br /> <span className="text-[#FF6B00]">CODE</span> <br /> IS LAW
+              <h2 className="relative z-10 text-4xl md:text-7xl font-sync font-bold uppercase tracking-tighter text-white leading-none">
+                The <span className="text-[#FF6B00]">Code</span> Is Law
               </h2>
+              
+              <p className="max-w-2xl mt-6 text-slate-400 text-xs md:text-sm uppercase tracking-widest leading-relaxed font-medium">
+                Our engineering philosophy and commitment to velocity.
+              </p>
 
-              <div className="h-[2px] w-16 bg-[#FF6B00] mt-6 md:mt-8 opacity-40"></div>
+              <div className="h-[2px] w-16 bg-[#FF6B00] mt-8 opacity-40"></div>
             </div>
 
             <div className="mt-10 md:mt-20 border-l-4 border-[#00E5FF] p-6 md:p-10 bg-white/5 backdrop-blur-md">
