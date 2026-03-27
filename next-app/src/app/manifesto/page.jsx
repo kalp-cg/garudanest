@@ -1,14 +1,43 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Hash, Send, Shield } from 'lucide-react';
 import { BentoCard } from '@/components/ui/BentoCard';
 import { callGemini } from '@/lib/gemini';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export default function ManifestoPage() {
+  const container = useRef(null);
   const [manifestoQuery, setManifestoQuery] = useState("");
   const [manifestoResponse, setManifestoResponse] = useState("");
+
+  useGSAP(() => {
+    const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+    tl.fromTo('.manifesto-ghost',
+        { x: -80, autoAlpha: 0 },
+        { x: 0, autoAlpha: 0.06, duration: 1.4 }
+      )
+      .fromTo('.manifesto-title',
+        { y: 60, autoAlpha: 0, filter: 'blur(10px)' },
+        { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 1.4 },
+        '-=1.0'
+      )
+      .fromTo('.manifesto-sub',
+        { y: 30, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 1.0 },
+        '-=0.8'
+      )
+      .fromTo('.manifesto-line',
+        { scaleX: 0, transformOrigin: 'left center' },
+        { scaleX: 1, duration: 1.0 },
+        '-=0.6'
+      );
+  }, { scope: container });
 
   const handleManifestoAsk = async () => {
     setManifestoResponse("SYNCING...");
@@ -21,28 +50,27 @@ export default function ManifestoPage() {
   };
 
   return (
-    <div className="pt-32 pb-20 bg-black">
+    <div ref={container} className="pt-32 pb-20 bg-black">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32">
           
           <div className="space-y-16">
-            <ScrollReveal type="clip-reveal">
-              <div className="relative group pt-16 md:pt-20">
-                <span className="absolute -top-3 left-0 text-[#FF6B00] opacity-[0.06] font-sync font-bold text-4xl md:text-8xl uppercase tracking-tighter select-none pointer-events-none whitespace-nowrap">
-                  Core Philosophy
-                </span>
+            {/* PAGE HEADER — GSAP powered */}
+            <div className="relative group pt-16 md:pt-20 overflow-hidden md:overflow-visible">
+              <span className="manifesto-ghost absolute -top-3 left-0 text-[#FF6B00] font-sync font-bold text-4xl md:text-8xl uppercase tracking-tighter select-none pointer-events-none whitespace-nowrap">
+                Core Philosophy
+              </span>
 
-                <h2 className="relative z-10 text-4xl md:text-7xl font-sync font-bold uppercase tracking-tighter text-white leading-none">
-                  The <span className="text-[#FF6B00]">Code</span> Is Law
-                </h2>
-                
-                <p className="max-w-md mt-6 text-slate-400 text-xs md:text-sm uppercase tracking-widest leading-relaxed font-medium">
-                  Our engineering philosophy and commitment to velocity.
-                </p>
+              <h2 className="manifesto-title relative z-10 text-4xl md:text-7xl font-sync font-bold uppercase tracking-tighter text-white leading-none">
+                The <span className="text-[#FF6B00]">Code</span> Is Law
+              </h2>
 
-                <div className="h-[2px] w-16 bg-[#FF6B00] mt-8 opacity-40"></div>
-              </div>
-            </ScrollReveal>
+              <p className="manifesto-sub max-w-md mt-6 text-slate-400 text-xs md:text-sm uppercase tracking-widest leading-relaxed font-medium">
+                Our engineering philosophy and commitment to velocity.
+              </p>
+
+              <div className="manifesto-line h-[2px] w-16 bg-[#FF6B00] mt-8 opacity-40 origin-left"></div>
+            </div>
 
             <div className="space-y-12">
               {[

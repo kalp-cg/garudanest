@@ -1,41 +1,91 @@
 "use client";
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { Zap, Cpu, Globe, Shield, ArrowRight, Users, Terminal } from 'lucide-react';
 import { teamMembers } from '@/lib/constants';
 import Link from 'next/link';
 import { BentoCard } from '@/components/ui/BentoCard';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export default function AboutPage() {
+  const container = useRef(null);
+
+  useGSAP(() => {
+    // Header timeline
+    const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+    tl.fromTo('.about-ghost',
+        { x: -80, autoAlpha: 0 },
+        { x: 0, autoAlpha: 0.06, duration: 1.4 }
+      )
+      .fromTo('.about-title',
+        { y: 60, autoAlpha: 0, filter: 'blur(10px)' },
+        { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 1.4 },
+        '-=1.0'
+      )
+      .fromTo('.about-sub',
+        { y: 30, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 1.2 },
+        '-=0.8'
+      )
+      .fromTo('.about-line',
+        { scaleX: 0, transformOrigin: 'left center' },
+        { scaleX: 1, duration: 1.0 },
+        '-=0.6'
+      );
+
+    // 3D tilt on bento cards
+    gsap.utils.toArray('.about-card').forEach((card) => {
+      // clip-path scroll reveal
+      gsap.fromTo(card,
+        { clipPath: 'inset(100% 0% 0% 0%)', y: 30 },
+        {
+          clipPath: 'inset(0% 0% 0% 0%)',
+          y: 0,
+          duration: 1.2,
+          ease: 'power4.inOut',
+          scrollTrigger: { trigger: card, start: 'top 88%', once: true },
+        }
+      );
+      const onMove = (e) => {
+        const rect = card.getBoundingClientRect();
+        const dx = (e.clientX - rect.left - rect.width / 2) / rect.width;
+        const dy = (e.clientY - rect.top - rect.height / 2) / rect.height;
+        gsap.to(card, { rotationY: dx * 10, rotationX: -dy * 8, transformPerspective: 800, duration: 0.4, ease: 'power3.out' });
+      };
+      const onLeave = () => gsap.to(card, { rotationY: 0, rotationX: 0, duration: 0.7, ease: 'elastic.out(1,0.5)' });
+      card.addEventListener('mousemove', onMove);
+      card.addEventListener('mouseleave', onLeave);
+    });
+  }, { scope: container });
+
   return (
-    <div className="relative pt-32 pb-20 px-6 bg-black min-h-screen font-space">
+    <div ref={container} className="relative pt-32 pb-20 px-6 bg-black min-h-screen font-space">
+
       <div className="max-w-7xl mx-auto relative z-10 px-4 md:px-0">
         
+        {/* PAGE HEADER */}
         <div className="relative group mb-16 md:mb-24 pt-12 md:pt-16 overflow-hidden md:overflow-visible">
-          <ScrollReveal type="slide-right" delay={0} className="absolute -top-3 left-0 select-none pointer-events-none whitespace-nowrap w-full">
-            <span className="text-[#FF6B00] opacity-[0.06] font-sync font-bold text-4xl md:text-8xl uppercase tracking-tighter">
-              Legacy Protocol
-            </span>
-          </ScrollReveal>
+          <span className="about-ghost absolute -top-3 left-0 text-[#FF6B00] opacity-[0.06] font-sync font-bold text-4xl md:text-8xl uppercase tracking-tighter select-none pointer-events-none whitespace-nowrap">
+            Legacy Protocol
+          </span>
 
-          <ScrollReveal type="slide-right" delay={150} className="relative z-10">
-            <h2 className="text-4xl md:text-7xl font-sync font-bold uppercase tracking-tighter text-white leading-[0.9]">
-              The <span className="text-[#FF6B00]">GarudaNest</span> <br />
-              Collective
-            </h2>
-          </ScrollReveal>
-          
-          <ScrollReveal type="slide-right" delay={300} className="max-w-2xl mt-6">
-            <p className="text-slate-400 text-xs md:text-sm uppercase tracking-widest leading-relaxed font-medium">
-              Radical transparency meets architectural grit. Documenting the origins of the collective.
-            </p>
-          </ScrollReveal>
+          <h2 className="about-title relative z-10 text-4xl md:text-7xl font-sync font-bold uppercase tracking-tighter text-white leading-[0.9]">
+            The <span className="text-[#FF6B00]">GarudaNest</span> <br />
+            Collective
+          </h2>
 
-          <ScrollReveal type="slide-right" delay={450} className="mt-8">
-            <div className="h-[2px] w-16 bg-[#FF6B00] opacity-40"></div>
-          </ScrollReveal>
+          <p className="about-sub max-w-2xl mt-6 text-slate-400 text-xs md:text-sm uppercase tracking-widest leading-relaxed font-medium">
+            Radical transparency meets architectural grit. Documenting the origins of the collective.
+          </p>
+
+          <div className="about-line h-[2px] w-16 bg-[#FF6B00] mt-8 opacity-40 origin-left"></div>
         </div>
+
 
         {/* SPECIALIZATION MATRIX */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-32">
@@ -59,7 +109,11 @@ export default function AboutPage() {
               desc: "Establishing permanent technical independence. Systems you own, controlled by your rules." 
             }
           ].map((item, i) => (
-            <ScrollReveal key={i} delay={i * 200} type="flip-up">
+            <div
+              key={i}
+              className="about-card will-change-transform"
+              style={{ clipPath: 'inset(100% 0% 0% 0%)' }}
+            >
               <BentoCard className="group p-10 bg-white/[0.02] border-white/5 hover:border-[#FF6B00]/30 transition-all duration-500 relative overflow-hidden h-full block">
                 <div className="relative z-10">
                   <div className="mb-6 opacity-60 group-hover:opacity-100 transition-opacity">{item.icon}</div>
@@ -71,7 +125,7 @@ export default function AboutPage() {
                 </div>
                 <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#FF6B00] group-hover:w-full transition-all duration-700"></div>
               </BentoCard>
-            </ScrollReveal>
+            </div>
           ))}
         </div>
 
