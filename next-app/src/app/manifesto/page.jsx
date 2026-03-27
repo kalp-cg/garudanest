@@ -26,7 +26,7 @@ export default function ManifestoPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32">
           
           <div className="space-y-16">
-            <ScrollReveal type="fade-up">
+            <ScrollReveal type="clip-reveal">
               <div className="relative group pt-16 md:pt-20">
                 <span className="absolute -top-3 left-0 text-[#FF6B00] opacity-[0.06] font-sync font-bold text-4xl md:text-8xl uppercase tracking-tighter select-none pointer-events-none whitespace-nowrap">
                   Core Philosophy
@@ -50,7 +50,7 @@ export default function ManifestoPage() {
                 { id: "02", t: "architectural grit", d: "We don't do templates. Every line is custom-engineered for specific scale." },
                 { id: "03", t: "velocity over comfort", d: "We ship at 10x speed by stripping away unnecessary middle-management." },
               ].map((item, index) => (
-                <ScrollReveal key={item.id} delay={index * 200} type="slide-right">
+                <ScrollReveal key={item.id} delay={index * 200} type="flip-up">
                   <div className="group relative">
                     <span className="absolute -left-10 top-0 text-[#FF6B00] text-xs font-bold opacity-30 group-hover:opacity-100">{item.id}</span>
                     <h4 className="text-2xl font-bold uppercase tracking-tighter group-hover:text-[#00E5FF] transition-colors mb-3 font-sync">{item.t}</h4>

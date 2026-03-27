@@ -59,7 +59,7 @@ export default function AboutPage() {
               desc: "Establishing permanent technical independence. Systems you own, controlled by your rules." 
             }
           ].map((item, i) => (
-            <ScrollReveal key={i} delay={i * 200} type="scale-up">
+            <ScrollReveal key={i} delay={i * 200} type="flip-up">
               <BentoCard className="group p-10 bg-white/[0.02] border-white/5 hover:border-[#FF6B00]/30 transition-all duration-500 relative overflow-hidden h-full block">
                 <div className="relative z-10">
                   <div className="mb-6 opacity-60 group-hover:opacity-100 transition-opacity">{item.icon}</div>
@@ -76,7 +76,7 @@ export default function AboutPage() {
         </div>
 
         {/* IMMERSIVE TEAM PHOTO BREAK */}
-        <ScrollReveal type="blur-in">
+        <ScrollReveal type="zoom-out">
           <div className="mb-32 relative h-[400px] md:h-[600px] w-full border border-white/5 rounded-sm overflow-hidden group">
               <img 
                 src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop" 
@@ -100,7 +100,7 @@ export default function AboutPage() {
         <div className="mb-40 relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start border-l border-white/5 pl-8 md:pl-16 relative z-10">
             <div className="sticky top-40 pt-4">
-              <ScrollReveal type="fade-up">
+              <ScrollReveal type="clip-reveal">
                 <div className="flex items-center gap-3 mb-8">
                   <Terminal size={16} className="text-[#00E5FF]" />
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#00E5FF]">Terminal_Briefing // Genesis</span>
@@ -113,7 +113,7 @@ export default function AboutPage() {
             </div>
 
             <div className="space-y-10 text-slate-400 text-xs md:text-sm uppercase leading-loose tracking-widest font-medium">
-              <ScrollReveal delay={200} type="slide-right">
+              <ScrollReveal delay={200} type="blur-in">
                 <p className="pb-10 border-b border-white/5 opacity-90">
                   GarudaNest was born from a frustration with "Good Enough." We watched a landscape filled with bloated agencies, junior developer churn, and technical debt that stifled innovation. We saw the gap between ambitious visions and the architectural grit required to build them.
                 </p>

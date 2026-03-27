@@ -5,6 +5,11 @@ import {
   ArrowRight,
   ChevronRight, Zap, Hash, Command, Terminal, Sparkles, Send, Cpu, Globe, Menu, X, ShieldCheck, Users, Rocket, Briefcase, User, Camera
 } from 'lucide-react';
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const Twitter = ({ size = 24, className = "" }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" /></svg>
@@ -73,8 +78,8 @@ const GarudaLogo = ({ className = "w-12 h-12", animated = false, glow = false })
 );
 
 export default function App() {
+  const container = useRef();
   const [shuffledMembers, setShuffledMembers] = useState([]);
-  const [isReady, setIsReady] = useState(false);
 
   const shuffle = (array) => {
     const shuffled = [...array];
@@ -87,8 +92,64 @@ export default function App() {
 
   useEffect(() => {
     setShuffledMembers(shuffle(teamMembers));
-    setTimeout(() => setIsReady(true), 150);
   }, []);
+
+  // --- GSAP Engine ---
+  useGSAP(() => {
+    const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+    // Node 0x1 Bar
+    tl.to(".hero-node", { opacity: 1, x: 0, duration: 1, delay: 0.2 })
+      // "BUILDING"
+      .fromTo(".hero-building", 
+        { y: "80%", scale: 0.9, rotation: 2, opacity: 0 },
+        { y: "0%", scale: 1, rotation: 0, opacity: 0.85, duration: 1.8 },
+        "-=0.6"
+      )
+      // "SYST3MS"
+      .fromTo(".hero-systems",
+        { x: "-20vw", opacity: 0, filter: "blur(10px)" },
+        { x: "0vw", opacity: 1, filter: "blur(0px)", duration: 1.6 },
+        "-=1.4"
+      )
+      // "THAT SOAR"
+      .fromTo(".hero-soar",
+        { x: "20vw", opacity: 0, filter: "blur(10px)" },
+        { x: "0vw", opacity: 1, filter: "blur(0px)", duration: 1.6 },
+        "-=1.2"
+      )
+      // Paragraph Description
+      .fromTo(".hero-desc",
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.5 },
+        "-=1.0"
+      )
+      // Call to action tags
+      .fromTo(".hero-tags",
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.5 },
+        "-=1.2"
+      );
+
+      // ScrollTrigger: Team Image Parallax
+      gsap.utils.toArray('.team-img-wrapper').forEach((wrapper) => {
+        const img = wrapper.querySelector('.team-img');
+        gsap.fromTo(img, 
+          { y: "-15%" }, 
+          {
+            y: "15%",
+            ease: "none",
+            scrollTrigger: {
+              trigger: wrapper,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true
+            }
+          }
+        );
+      });
+
+  }, { scope: container });
 
   const [manifestoQuery, setManifestoQuery] = useState("");
   const [manifestoResponse, setManifestoResponse] = useState("");
@@ -109,7 +170,7 @@ export default function App() {
   const handleHireSubmit = async (event) => { event.preventDefault(); setHireStatus({ type: 'success', message: `Protocol Initiated.` }); };
 
   return (
-    <div id="home" className="bg-[#050505] text-[#f0f0f0] font-mono selection:bg-[#FF6B00] selection:text-black cursor-none overflow-x-hidden">
+    <div ref={container} id="home" className="bg-[#050505] text-[#f0f0f0] font-mono selection:bg-[#FF6B00] selection:text-black cursor-none overflow-x-hidden">
 
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes cyber-marquee {
@@ -129,73 +190,32 @@ export default function App() {
       {/* HERO SECTION */}
       <section className="relative min-h-[90vh] md:min-h-screen flex flex-col justify-center px-6 md:px-10 pt-32 md:pt-20">
         <div className="max-w-7xl mx-auto w-full relative">
-          <div className="flex items-center gap-3 mb-8 md:mb-10">
+          <div className="flex items-center gap-3 mb-8 md:mb-10 hero-node opacity-0 -translate-x-4">
             <div className="h-[1px] w-12 md:w-16 bg-[#FF6B00]"></div>
             <span className="text-[9px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.5em] text-[#FF6B00] font-bold">Node 0x1 // Established 2026</span>
           </div>
 
           <h1 className="font-sync text-6xl sm:text-8xl md:text-[11vw] font-black leading-[0.9] md:leading-[0.8] uppercase tracking-tighter mb-12 md:mb-16 relative perspective-1000">
-            <span 
-              className="block italic hover:opacity-100 transition-all duration-[2.5s] relative z-0"
-              style={{
-                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-                transitionDelay: '1600ms',
-                opacity: isReady ? 0.2 : 0,
-                transform: isReady ? 'translateY(0) scale(1) rotate(0deg)' : 'translateY(80%) scale(0.9) rotate(2deg)',
-              }}
-            >
+            <span className="block italic text-white/50 hover:text-white transition-colors duration-500 relative z-0 hero-building opacity-0">
               BUILDING
             </span>
-            <span 
-              className="block ml-[4vw] glitch-text text-[#FF6B00] relative z-10 transition-all duration-[2.5s]"
-              data-text="SYST3MS"
-              style={{
-                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-                transitionDelay: '400ms',
-                opacity: isReady ? 1 : 0,
-                transform: isReady ? 'translateX(0)' : 'translateX(-50vw)',
-              }}
-            >
+            <span className="block ml-[4vw] text-[#FF6B00] relative z-10 hero-systems opacity-0">
               SYST3MS
             </span>
-            <span 
-              className="block text-right mr-[4vw] text-[#00E5FF] transition-all duration-[2.5s]"
-              style={{
-                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-                transitionDelay: '1000ms',
-                opacity: isReady ? 1 : 0,
-                transform: isReady ? 'translateX(0)' : 'translateX(50vw)',
-              }}
-            >
+            <span className="block text-right mr-[4vw] text-[#00E5FF] hero-soar opacity-0">
               THAT SOAR
             </span>
           </h1>
 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10 md:gap-12">
-            <div 
-              className="max-w-md border-l-2 border-white/10 pl-6 md:pl-8 transition-all duration-[2.5s] relative"
-              style={{
-                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-                transitionDelay: '2200ms',
-                opacity: isReady ? 1 : 0,
-                transform: isReady ? 'translateY(0)' : 'translateY(20px)',
-              }}
-            >
+            <div className="max-w-md border-l-2 border-white/10 pl-6 md:pl-8 relative hero-desc opacity-0">
               <p className="text-[11px] sm:text-xs md:text-sm leading-relaxed text-slate-400 uppercase font-bold">
                 Not an agency. Not a factory. <br />
                 We are a high-velocity engineering collective <br />
                 architecting the next phase of digital infrastructure.
               </p>
             </div>
-            <div 
-              className="flex flex-col items-start md:items-end gap-6 w-full md:w-auto transition-all duration-[2.5s] relative"
-              style={{
-                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-                transitionDelay: '2600ms',
-                opacity: isReady ? 1 : 0,
-                transform: isReady ? 'translateY(0)' : 'translateY(30px)',
-              }}
-            >
+            <div className="flex flex-col items-start md:items-end gap-6 w-full md:w-auto relative hero-tags opacity-0">
               <div className="flex flex-wrap gap-3 md:gap-4 text-[8px] md:text-[9px] font-mono text-[#00E5FF]">
                 <span className="border border-[#00E5FF]/30 px-2 py-1">[REACT_CORE]</span>
                 <span className="border border-[#00E5FF]/30 px-2 py-1">[AI_NODES]</span>
@@ -292,11 +312,11 @@ export default function App() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {homePagePreview.map((member, index) => (
               <ScrollReveal key={member.name} delay={index * 150} type="fade-up" className="group h-full">
-                  <div className="relative aspect-[4/5] overflow-hidden bg-[#0a0a0a] border border-white/5 hover:border-[#FF6B00]/30 transition-all duration-500 h-full">
+                  <div className="team-img-wrapper relative aspect-[4/5] overflow-hidden bg-[#0a0a0a] border border-white/5 hover:border-[#FF6B00]/30 transition-all duration-500 h-full block">
                       <img
                         src={member.image}
                         alt={member.name}
-                        className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+                        className="team-img absolute inset-0 w-full h-[130%] -top-[15%] object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
 
