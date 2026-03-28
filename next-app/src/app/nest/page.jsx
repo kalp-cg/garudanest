@@ -30,7 +30,7 @@ export default function NestPage() {
     setShuffledMembers(shuffle(teamMembers));
   }, []);
 
-  // GSAP engine — header timeline + card reveals
+  // GSAP engine — header timeline
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
     tl.fromTo('.nest-ghost',
@@ -57,17 +57,24 @@ export default function NestPage() {
         { y: 0, autoAlpha: 1, duration: 0.8 },
         '-=0.4'
       );
+  }, { scope: container });
+
+  // GSAP engine — card reveals tracking shuffle & filters
+  useGSAP(() => {
+    // Only animate grid after shuffle is complete to ensure correct indices
+    if (shuffledMembers.length === 0) return;
 
     // Staggered card reveals via clip-path
     gsap.utils.toArray('.nest-card').forEach((card, i) => {
       gsap.fromTo(card,
-        { clipPath: 'inset(100% 0% 0% 0%)', y: 30 },
+        { clipPath: 'inset(100% 0% 0% 0%)', y: 30, autoAlpha: 0 },
         {
           clipPath: 'inset(0% 0% 0% 0%)',
           y: 0,
-          duration: 1.0,
+          autoAlpha: 1, // ensure it's visible after reveal
+          duration: 1.5,
           ease: 'power4.inOut',
-          delay: (i % 4) * 0.1,
+          delay: (i < 4 ? 0.6 : 0) + (i % 4) * 0.2, // Top row waits for header, staggered elegantly
           scrollTrigger: { trigger: card, start: 'top 90%', once: true },
         }
       );
@@ -89,7 +96,11 @@ export default function NestPage() {
       card.addEventListener('mousemove', onMove);
       card.addEventListener('mouseleave', onLeave);
     });
-  }, { scope: container });
+
+    // Force ScrollTrigger to recalculate now that DOM nodes have moved
+    setTimeout(() => ScrollTrigger.refresh(), 50);
+
+  }, { scope: container, dependencies: [shuffledMembers, teamFilter] });
 
   const membersToDisplay = shuffledMembers.length > 0 ? shuffledMembers : teamMembers;
   const visibleTeam = teamFilter === "All"
@@ -149,6 +160,8 @@ export default function NestPage() {
               <img
                 src={member.image}
                 alt={member.name}
+                loading="eager"
+                fetchPriority="high"
                 className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
               />
 

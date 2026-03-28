@@ -70,14 +70,14 @@ export default function PersonnelPage() {
             
             {/* LEFT COLLUMN: JS-SYNCED FIXED PORTRAIT (Never overlaps footer) */}
             <div 
-                className="relative md:fixed md:top-24 md:left-0 w-full md:w-1/2 h-[60vh] md:h-[calc(100vh-96px)] z-10 overflow-hidden"
+                className="relative md:fixed md:top-0 md:left-0 w-full md:w-1/2 h-[60vh] md:h-screen z-10 overflow-hidden"
                 style={{ transform: `translateY(-${scrollOffset}px)` }}
             >
                 <div className={`relative w-full h-full bg-black border-r border-white/5 transition-transform duration-[1.5s] ease-out ${isLoaded ? 'translate-x-0' : '-translate-x-[100%]'}`}>
                     <img 
                         src={member.image} 
                         alt={member.name}
-                        className="absolute inset-0 w-full h-full object-cover object-top grayscale opacity-80 scale-105"
+                        className="absolute inset-0 w-full h-full object-cover object-center grayscale opacity-80"
                     />
                     
                     {/* Simulated scanning laser line */}
