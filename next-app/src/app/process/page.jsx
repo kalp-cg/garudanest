@@ -233,6 +233,7 @@ export default function ProcessPage() {
 function ProcessShowcase() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [isPaused, setIsPaused] = React.useState(false);
+  const showcaseContainer = useRef(null);
 
   const stepsData = [
     {
@@ -342,6 +343,25 @@ function ProcessShowcase() {
     },
   ];
 
+  useGSAP(() => {
+    // Initial Stagger Reveal
+    gsap.fromTo('.showcase-item', 
+      { x: -50, autoAlpha: 0, filter: 'blur(20px)' },
+      { 
+        x: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 2.2, stagger: 0.25, ease: 'power3.out',
+        scrollTrigger: { trigger: showcaseContainer.current, start: 'top 85%', once: true }
+      }
+    );
+
+    gsap.fromTo('.showcase-panel',
+      { x: 50, autoAlpha: 0, filter: 'blur(40px)' },
+      {
+        x: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 2.8, ease: 'power3.out',
+        scrollTrigger: { trigger: showcaseContainer.current, start: 'top 85%', once: true }
+      }
+    );
+  }, { scope: showcaseContainer });
+
   React.useEffect(() => {
     if (isPaused) return;
     const interval = setInterval(() => {
@@ -351,7 +371,7 @@ function ProcessShowcase() {
   }, [isPaused, stepsData.length]);
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-stretch relative min-h-[850px] mb-20">
+    <div ref={showcaseContainer} className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-stretch relative min-h-[850px] mb-20">
       {/* Left side: Steps Selection */}
       <div
         className="w-full lg:w-[45%] flex flex-col justify-between py-2"
@@ -362,7 +382,7 @@ function ProcessShowcase() {
           <div
             key={item.step}
             onMouseEnter={() => setActiveStep(idx)}
-            className={`group relative flex items-center gap-6 p-5 md:p-8 bg-[#0a0a0a] border border-white/5 cursor-crosshair transition-all duration-500 flex-grow ${idx !== 6 ? 'mb-4' : ''} ${activeStep === idx ? 'border-[#FF6B00]/40 bg-[#0d0d0d]' : 'hover:border-white/10 opacity-40 hover:opacity-100'}`}
+            className={`showcase-item group relative flex items-center gap-6 p-5 md:p-8 bg-[#0a0a0a] border border-white/5 cursor-crosshair transition-all duration-500 flex-grow ${idx !== 6 ? 'mb-4' : ''} ${activeStep === idx ? 'border-[#FF6B00]/40 bg-[#0d0d0d]' : 'hover:border-white/10 opacity-40 hover:opacity-100'}`}
           >
             <div className={`absolute top-0 left-0 h-[2px] bg-[#FF6B00] transition-all duration-[7000ms] ease-linear ${activeStep === idx && !isPaused ? 'w-full' : 'w-0'}`} />
             <span className={`text-xs font-mono font-bold transition-colors ${activeStep === idx ? 'text-[#FF6B00]' : 'text-white/20'}`}>{item.step}</span>
@@ -386,7 +406,7 @@ function ProcessShowcase() {
       </div>
 
       {/* Right side: Information Panel */}
-      <div className="w-full lg:w-[55%] flex">
+      <div className="showcase-panel w-full lg:w-[55%] flex">
         <div className="bg-[#0a0a0a] border border-white/5 p-6 md:p-16 relative overflow-hidden group w-full flex flex-col justify-between">
           <div
             className="absolute top-0 right-0 w-64 h-64 opacity-15 transition-colors duration-700 blur-[120px] rounded-full -mr-24 -mt-24"
