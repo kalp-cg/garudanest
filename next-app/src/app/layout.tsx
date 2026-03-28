@@ -23,6 +23,7 @@ import { AmbientUI } from "@/components/ui/AmbientUI";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MagneticCursor } from "@/components/ui/MagneticCursor";
+import { GlobalAudio } from "@/components/ui/GlobalAudio";
 
 export default function RootLayout({
   children,
@@ -57,6 +58,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased text-white bg-[#050505] overflow-x-clip`}>
         <MagneticCursor />
+        <GlobalAudio />
         <Preloader />
         <AmbientUI />
         <Header />

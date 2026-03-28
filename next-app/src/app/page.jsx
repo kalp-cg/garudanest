@@ -35,14 +35,14 @@ const BRAND = {
 };
 
 const teamMembers = [
-  { name: "Ari Prasetyo", role: "Frontend", bio: "Crafts high-performance UI systems for product teams.", tags: ["Next.js", "UI", "A11y"], image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800" },
-  { name: "Rina Mahesa", role: "Backend", bio: "Builds reliable APIs and distributed services at scale.", tags: ["Node", "Prisma", "Postgres"], image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=800" },
-  { name: "Devansh Patel", role: "AI", bio: "Ships applied AI systems from prototype to production.", tags: ["RAG", "Evaluation", "MLOps"], image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=800" },
-  { name: "Naufal Saputra", role: "DevOps", bio: "Designs cloud infra with speed, resilience, and observability.", tags: ["K8s", "CI/CD", "SRE"], image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=800" },
-  { name: "Ishita Singh", role: "Frontend", bio: "Builds conversion-focused interfaces with premium UX polish.", tags: ["React", "Motion", "Design"], image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800" },
-  { name: "Harsh Vora", role: "Backend", bio: "Owns core architecture for high-throughput backend systems.", tags: ["Microservices", "Caching", "Queues"], image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=800" },
-  { name: "Bagus Wicaksono", role: "DevOps", bio: "Automates secure deployments and developer platforms.", tags: ["Terraform", "Security", "Cloud"], image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=800" },
-  { name: "Megha Jain", role: "AI", bio: "Creates AI pipelines that improve product decisions.", tags: ["NLP", "Python", "Data"], image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=800" },
+  { name: "Kalpan Kaneriya", slug: "kalpan-kaneriya", role: "Frontend", bio: "Crafts high-performance UI systems for product teams.", tags: ["Next.js", "UI", "A11y"], image: "https://res.cloudinary.com/dzsvjyg2c/image/upload/v1774674812/WhatsApp_Image_2026-03-26_at_6.22.25_PM_qszeev.jpg" },
+  { name: "Kalp Patel", slug: "kalp-patel", role: "Backend", bio: "Builds reliable APIs and distributed services at scale.", tags: ["Node", "Prisma", "Postgres"], image: "https://res.cloudinary.com/dzsvjyg2c/image/upload/v1774674783/WhatsApp_Image_2026-03-26_at_6.27.49_PM_dx4haa.jpg" },
+  { name: "Jatin Rajvani", slug: "jatin-rajvani", role: "AI", bio: "Ships applied AI systems from prototype to production.", tags: ["RAG", "Evaluation", "MLOps"], image: "https://res.cloudinary.com/dzsvjyg2c/image/upload/v1774717255/copy_of_whatsapp_image_2026-03-26_at_62603_pm_alcs0k_542f5b.jpg" },
+  { name: "Sujal Vasara", slug: "sujal-vasara", role: "DevOps", bio: "Designs cloud infra with speed, resilience, and observability.", tags: ["K8s", "CI/CD", "SRE"], image: "https://res.cloudinary.com/dzsvjyg2c/image/upload/v1774674777/WhatsApp_Image_2026-03-26_at_6.26.03_PM_1_nxtygv.jpg" },
+  { name: "Prem Kambaliya", slug: "prem-kambaliya", role: "Frontend", bio: "Builds conversion-focused interfaces with premium UX polish.", tags: ["React", "Motion", "Design"], image: "https://res.cloudinary.com/dzsvjyg2c/image/upload/v1774674771/WhatsApp_Image_2026-03-26_at_6.26.04_PM_rgtl7g.jpg" },
+  { name: "Arya Patel", slug: "arya-patel", role: "Backend", bio: "Owns core architecture for high-throughput backend systems.", tags: ["Microservices", "Caching", "Queues"], image: "https://res.cloudinary.com/dzsvjyg2c/image/upload/v1774675438/1279d915-53ad-44b7-ad38-caa434ff8915.png" },
+  { name: "Dax Patel", slug: "dax-patel", role: "DevOps", bio: "Automates secure deployments and developer platforms.", tags: ["Terraform", "Security", "Cloud"], image: "https://res.cloudinary.com/dzsvjyg2c/image/upload/v1774674778/WhatsApp_Image_2026-03-26_at_6.26.26_PM_mkbsic.jpg" },
+  { name: "Mohil Mundke", slug: "mohil-mundke", role: "AI", bio: "Creates AI pipelines that improve product decisions.", tags: ["NLP", "Python", "Data"], image: "https://res.cloudinary.com/dzsvjyg2c/image/upload/v1774675847/WhatsApp_Image_2026-03-28_at_11.00.19_AM_u1igzf.jpg" },
 ];
 
 const projects = [
@@ -96,10 +96,14 @@ export default function App() {
 
   // --- GSAP Engine ---
   useGSAP(() => {
+    // Check if we need to wait for preloader on first load
+    const isFirstLoad = !sessionStorage.getItem('garuda_loaded');
+    const introDelay = isFirstLoad ? 3.6 : 0.2;
+
     const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
     // Node 0x1 Bar
-    tl.to(".hero-node", { opacity: 1, x: 0, duration: 1, delay: 0.2 })
+    tl.to(".hero-node", { opacity: 1, x: 0, duration: 1, delay: introDelay })
       // "BUILDING"
       .fromTo(".hero-building", 
         { y: "80%", scale: 0.9, rotation: 2, opacity: 0 },
@@ -130,26 +134,49 @@ export default function App() {
         { y: 0, opacity: 1, duration: 1.5 },
         "-=1.2"
       );
-
-      // ScrollTrigger: Team Image Parallax
-      gsap.utils.toArray('.team-img-wrapper').forEach((wrapper) => {
-        const img = wrapper.querySelector('.team-img');
-        gsap.fromTo(img, 
-          { y: "-15%" }, 
-          {
-            y: "15%",
-            ease: "none",
-            scrollTrigger: {
-              trigger: wrapper,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: true
-            }
-          }
-        );
-      });
-
   }, { scope: container });
+
+  // --- Team Grid Engine (Waits for shuffle) ---
+  useGSAP(() => {
+    if (shuffledMembers.length === 0) return;
+
+    // Staggered team card reveals via clip-path
+    gsap.utils.toArray('.nest-card').forEach((card, i) => {
+      gsap.fromTo(card,
+        { clipPath: 'inset(100% 0% 0% 0%)', y: 30, autoAlpha: 0 },
+        {
+          clipPath: 'inset(0% 0% 0% 0%)',
+          y: 0,
+          autoAlpha: 1,
+          duration: 1.5,
+          ease: 'power4.inOut',
+          delay: (i % 4) * 0.2,
+          scrollTrigger: { trigger: card, start: 'top 90%', once: true },
+        }
+      );
+
+      // 3D portrait tilt on mouse move
+      const onMove = (e) => {
+        const rect = card.getBoundingClientRect();
+        const dx = (e.clientX - rect.left - rect.width / 2) / rect.width;
+        const dy = (e.clientY - rect.top - rect.height / 2) / rect.height;
+        gsap.to(card, {
+          rotationY: dx * 12,
+          rotationX: -dy * 8,
+          transformPerspective: 700,
+          duration: 0.4,
+          ease: 'power3.out',
+        });
+      };
+      const onLeave = () => gsap.to(card, { rotationY: 0, rotationX: 0, duration: 0.7, ease: 'elastic.out(1,0.5)' });
+      card.addEventListener('mousemove', onMove);
+      card.addEventListener('mouseleave', onLeave);
+    });
+
+    // Refresh ScrollTrigger as the layout has shifted with new cards
+    ScrollTrigger.refresh();
+
+  }, { scope: container, dependencies: [shuffledMembers] });
 
   const [manifestoQuery, setManifestoQuery] = useState("");
   const [manifestoResponse, setManifestoResponse] = useState("");
@@ -309,47 +336,63 @@ export default function App() {
              </h2>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {homePagePreview.map((member, index) => (
-              <ScrollReveal key={member.name} delay={index * 150} type="fade-up" className="group h-full">
-                  <div className="team-img-wrapper relative aspect-[4/5] overflow-hidden bg-[#0a0a0a] border border-white/5 hover:border-[#FF6B00]/30 transition-all duration-500 h-full block">
-                      <img
-                        src={member.image}
-                        alt={member.name}
-                        className="team-img absolute inset-0 w-full h-[130%] -top-[15%] object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+              <div
+                key={member.name}
+                className="nest-card cursor-pointer group relative aspect-[4/5] overflow-hidden bg-[#050505] border border-white/5 hover:border-[#00E5FF]/40 transition-colors duration-500 will-change-transform"
+                style={{ clipPath: 'inset(100% 0% 0% 0%)' }}
+              >
+                {/* Profile Image */}
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  loading="eager"
+                  fetchPriority="high"
+                  className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+                />
 
-                      <div className="absolute top-4 right-4 z-20">
-                        <span className="text-[7px] font-mono px-2 py-1 bg-black/60 backdrop-blur-md border border-white/10 text-white/40 uppercase tracking-[0.2em]">
-                          Node_0x{index + 1} // Active
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500" />
+
+                {/* Scan-line texture on hover */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                  style={{
+                    background: 'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,229,255,0.02) 3px, rgba(0,229,255,0.02) 6px)'
+                  }}
+                />
+
+                {/* Status Badge */}
+                <div className="absolute top-4 right-4 z-20">
+                  <span className="text-[8px] font-mono px-2 py-1 bg-black/60 backdrop-blur-md border border-white/10 text-[#00E5FF] uppercase tracking-[0.2em]">
+                    Node_0x{index + 1}
+                  </span>
+                </div>
+
+                {/* Info Content */}
+                <div className="absolute inset-x-0 bottom-0 p-6 z-20 flex flex-col justify-end translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                  <div className="h-[2px] w-12 bg-[#FF6B00] mb-4 group-hover:w-full transition-all duration-700" />
+                  <h3 className="text-2xl font-sync font-bold uppercase text-white mb-1 tracking-tighter leading-none">
+                    {member.name}
+                  </h3>
+                  <p className="text-[10px] font-bold text-[#FF6B00] uppercase tracking-[0.2em] mb-4">
+                    {member.role}
+                  </p>
+                  <div className="max-h-0 group-hover:max-h-48 overflow-hidden transition-all duration-700 opacity-0 group-hover:opacity-100">
+                    <p className="text-[10px] text-slate-300 uppercase leading-relaxed mb-4 tracking-wide font-medium">
+                      {member.bio}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {member.tags.map((tag) => (
+                        <span key={tag} className="text-[8px] font-mono border border-white/10 px-2 py-1 text-white/50 uppercase">
+                          {tag}
                         </span>
-                      </div>
-
-                      <div className="absolute inset-x-0 bottom-0 p-5 z-20 flex flex-col justify-end translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <div className="h-[2px] w-10 bg-[#FF6B00] mb-3 group-hover:w-full transition-all duration-700" />
-                        <h3 className="text-xl font-sync font-bold uppercase text-white mb-0.5 tracking-tighter">
-                          {member.name}
-                        </h3>
-                        <p className="text-[9px] font-bold text-[#FF6B00] uppercase tracking-[0.2em] mb-3">
-                          {member.role}
-                        </p>
-                        <div className="max-h-0 group-hover:max-h-24 overflow-hidden transition-all duration-700 opacity-0 group-hover:opacity-100">
-                          <p className="text-[9px] text-slate-300 uppercase leading-relaxed mb-3 tracking-wide font-medium">
-                            {member.bio}
-                          </p>
-                          <div className="flex flex-wrap gap-1.5">
-                            {member.tags.map((tag) => (
-                              <span key={tag} className="text-[7px] font-mono border border-white/10 px-1.5 py-0.5 text-white/50 uppercase">
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-1000 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-[1200ms]" />
+                      ))}
+                    </div>
                   </div>
-              </ScrollReveal>
+                </div>
+              </div>
             ))}
           </div>
         </div>
