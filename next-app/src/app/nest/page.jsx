@@ -34,9 +34,9 @@ export default function NestPage() {
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
     tl.fromTo('.nest-ghost',
-        { x: -80, autoAlpha: 0 },
-        { x: 0, autoAlpha: 0.06, duration: 1.4 }
-      )
+      { x: -80, autoAlpha: 0 },
+      { x: 0, autoAlpha: 0.06, duration: 1.4 }
+    )
       .fromTo('.nest-title',
         { y: 60, autoAlpha: 0, filter: 'blur(10px)' },
         { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 1.4 },
@@ -78,23 +78,6 @@ export default function NestPage() {
           scrollTrigger: { trigger: card, start: 'top 90%', once: true },
         }
       );
-
-      // 3D portrait tilt on mouse move
-      const onMove = (e) => {
-        const rect = card.getBoundingClientRect();
-        const dx = (e.clientX - rect.left - rect.width / 2) / rect.width;
-        const dy = (e.clientY - rect.top - rect.height / 2) / rect.height;
-        gsap.to(card, {
-          rotationY: dx * 12,
-          rotationX: -dy * 8,
-          transformPerspective: 700,
-          duration: 0.4,
-          ease: 'power3.out',
-        });
-      };
-      const onLeave = () => gsap.to(card, { rotationY: 0, rotationX: 0, duration: 0.7, ease: 'elastic.out(1,0.5)' });
-      card.addEventListener('mousemove', onMove);
-      card.addEventListener('mouseleave', onLeave);
     });
 
     // Force ScrollTrigger to recalculate now that DOM nodes have moved
@@ -136,11 +119,10 @@ export default function NestPage() {
             <button
               key={role}
               onClick={() => setTeamFilter(role)}
-              className={`px-4 py-2 border transition-all duration-300 ${
-                teamFilter === role
+              className={`px-4 py-2 border transition-all duration-300 ${teamFilter === role
                   ? 'border-[#00E5FF] bg-[#00E5FF]/10 text-[#00E5FF]'
                   : 'border-white/10 text-white/40 hover:text-white hover:border-white/30'
-              }`}
+                }`}
             >
               {role}
             </button>
