@@ -14,9 +14,9 @@ export default function ProcessPage() {
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
     tl.fromTo('.proc-ghost',
-        { x: -80, autoAlpha: 0 },
-        { x: 0, autoAlpha: 0.06, duration: 1.4 }
-      )
+      { x: -80, autoAlpha: 0 },
+      { x: 0, autoAlpha: 0.06, duration: 1.4 }
+    )
       .fromTo('.proc-title',
         { y: 60, autoAlpha: 0, filter: 'blur(10px)' },
         { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 1.4 },
@@ -37,16 +37,20 @@ export default function ProcessPage() {
     gsap.utils.toArray('.reveal-up').forEach((el, i) => {
       gsap.fromTo(el,
         { y: 50, autoAlpha: 0 },
-        { y: 0, autoAlpha: 1, duration: 1.0, ease: 'power4.out', delay: i * 0.08,
-          scrollTrigger: { trigger: el, start: 'top 88%', once: true } }
+        {
+          y: 0, autoAlpha: 1, duration: 1.0, ease: 'power4.out', delay: i * 0.08,
+          scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+        }
       );
     });
 
     gsap.utils.toArray('.reveal-left').forEach((el) => {
       gsap.fromTo(el,
         { x: -40, autoAlpha: 0 },
-        { x: 0, autoAlpha: 1, duration: 1.0, ease: 'power4.out',
-          scrollTrigger: { trigger: el, start: 'top 88%', once: true } }
+        {
+          x: 0, autoAlpha: 1, duration: 1.0, ease: 'power4.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+        }
       );
     });
   }, { scope: container });
@@ -345,9 +349,9 @@ function ProcessShowcase() {
 
   useGSAP(() => {
     // Initial Stagger Reveal
-    gsap.fromTo('.showcase-item', 
+    gsap.fromTo('.showcase-item',
       { x: -50, autoAlpha: 0, filter: 'blur(20px)' },
-      { 
+      {
         x: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 2.2, stagger: 0.25, ease: 'power3.out',
         scrollTrigger: { trigger: showcaseContainer.current, start: 'top 85%', once: true }
       }
@@ -382,25 +386,31 @@ function ProcessShowcase() {
           <div
             key={item.step}
             onMouseEnter={() => setActiveStep(idx)}
-            className={`showcase-item group relative flex items-center gap-6 p-5 md:p-8 bg-[#0a0a0a] border border-white/5 cursor-crosshair transition-all duration-500 flex-grow ${idx !== 6 ? 'mb-4' : ''} ${activeStep === idx ? 'border-[#FF6B00]/40 bg-[#0d0d0d]' : 'hover:border-white/10 opacity-40 hover:opacity-100'}`}
+            className={`showcase-item group relative flex items-center gap-6 p-5 md:p-8 bg-[#0a0a0a] border border-white/5 cursor-crosshair transition-all duration-500 w-full flex-grow ${idx !== 6 ? 'mb-4' : ''} ${activeStep === idx ? 'border-[#FF6B00]/40 bg-[#0d0d0d]' : 'hover:border-white/10 opacity-40 hover:opacity-100'}`}
           >
             <div className={`absolute top-0 left-0 h-[2px] bg-[#FF6B00] transition-all duration-[7000ms] ease-linear ${activeStep === idx && !isPaused ? 'w-full' : 'w-0'}`} />
-            <span className={`text-xs font-mono font-bold transition-colors ${activeStep === idx ? 'text-[#FF6B00]' : 'text-white/20'}`}>{item.step}</span>
-            <div className="flex flex-col">
-              <h3 className={`text-base md:text-2xl font-sync font-bold uppercase tracking-tighter transition-all ${activeStep === idx ? 'text-white' : 'text-white/40'}`}>
+            
+            <span className={`text-xs font-mono font-bold w-6 transition-colors ${activeStep === idx ? 'text-[#FF6B00]' : 'text-white/20'}`}>
+              {item.step}
+            </span>
+
+            <div className="flex flex-col flex-1 min-w-0">
+              <h3 className={`text-base md:text-2xl font-sync font-bold uppercase tracking-tighter transition-all truncate ${activeStep === idx ? 'text-white' : 'text-white/40'}`}>
                 {item.title}
               </h3>
-              {activeStep === idx && (
-                <div className="flex items-center gap-3 mt-2">
-                  <span className="text-[8px] font-mono text-[#FF6B00] uppercase tracking-widest opacity-70">{item.philosophy}</span>
-                  <div className="h-[1px] w-4 bg-white/10" />
-                  <span className="text-[8px] font-mono text-white/30 uppercase tracking-widest">{item.duration}</span>
-                </div>
-              )}
+              
+              {/* Space-reserved container for sub-labels to prevent layout jitter */}
+              <div className={`flex items-center gap-3 transition-all duration-300 ${activeStep === idx ? 'h-5 mt-2 opacity-100' : 'h-0 mt-0 opacity-0 overflow-hidden'}`}>
+                <span className="text-[8px] font-mono text-[#FF6B00] uppercase tracking-widest opacity-70 whitespace-nowrap">{item.philosophy}</span>
+                <div className="h-[1px] w-4 bg-white/10" />
+                <span className="text-[8px] font-mono text-white/30 uppercase tracking-widest whitespace-nowrap">{item.duration}</span>
+              </div>
             </div>
-            {activeStep === idx && (
-              <div className="ml-auto w-2 h-2 rounded-full bg-[#FF6B00] shadow-[0_0_10px_#FF6B00]" />
-            )}
+
+            {/* Logical endpoint node - Always present to maintain width parity */}
+            <div className="flex items-center justify-center w-6 h-6">
+              <div className={`w-2 h-2 rounded-full bg-[#FF6B00] shadow-[0_0_10px_#FF6B00] transition-all duration-500 ${activeStep === idx ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`} />
+            </div>
           </div>
         ))}
       </div>

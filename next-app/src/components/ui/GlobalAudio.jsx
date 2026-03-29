@@ -68,19 +68,18 @@ export function GlobalAudio() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-[100] group">
+    <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-[100] group">
       <button 
         onClick={toggleMute}
-        className="flex items-center gap-3 bg-black/60 backdrop-blur-md border border-white/10 hover:border-[#FF6B00]/40 px-4 py-3 rounded-full transition-all duration-300 pointer-events-auto"
+        className="flex items-center gap-2 md:gap-3 bg-black/60 backdrop-blur-md border border-white/10 hover:border-[#FF6B00]/40 px-3 py-3 md:px-4 md:py-3 rounded-full transition-all duration-300 pointer-events-auto"
       >
-        <div className="flex items-end gap-[2px] h-4 w-4">
-          {/* Animated Equalizer Bars */}
-          <div className={`w-1 bg-[#FF6B00] rounded-t-sm transition-all duration-150 ${isPlaying ? 'animate-[equalizer_0.8s_ease-in-out_infinite] h-full' : 'h-1'}`}></div>
-          <div className={`w-1 bg-[#FF6B00] rounded-t-sm transition-all duration-150 ${isPlaying ? 'animate-[equalizer_1.2s_ease-in-out_infinite_animation-delay-200] h-full' : 'h-1'}`}></div>
-          <div className={`w-1 bg-[#FF6B00] rounded-t-sm transition-all duration-150 ${isPlaying ? 'animate-[equalizer_1.0s_ease-in-out_infinite_animation-delay-400] h-full' : 'h-1'}`}></div>
+        <div className="flex items-end gap-[2px] h-3 w-3 md:h-4 md:w-4">
+          <div className={`w-[3px] md:w-1 bg-[#FF6B00] rounded-t-sm transition-all duration-150 ${isPlaying ? 'animate-[equalizer_0.8s_ease-in-out_infinite] h-full' : 'h-1'}`}></div>
+          <div className={`w-[3px] md:w-1 bg-[#FF6B00] rounded-t-sm transition-all duration-150 ${isPlaying ? 'animate-[equalizer_1.2s_ease-in-out_infinite] h-full' : 'h-1'}`}></div>
+          <div className={`w-[3px] md:w-1 bg-[#FF6B00] rounded-t-sm transition-all duration-150 ${isPlaying ? 'animate-[equalizer_1.0s_ease-in-out_infinite] h-full' : 'h-1'}`}></div>
         </div>
 
-        <span className="text-[10px] font-mono tracking-widest uppercase text-white/60 group-hover:text-white transition-colors">
+        <span className="hidden md:block text-[10px] font-mono tracking-widest uppercase text-white/60 group-hover:text-white transition-colors">
           {isPlaying ? 'AUDIO_SYNC' : 'AUDIO_MUTED'}
         </span>
       </button>
