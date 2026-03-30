@@ -88,7 +88,7 @@ export default function ManifestoPage() {
               ].map((item, index) => (
                 <ScrollReveal key={item.id} delay={index * 200} type="flip-up">
                   <div className="group relative">
-                    <span className="absolute -left-10 top-0 text-[#FF6B00] text-xs font-bold opacity-30 group-hover:opacity-100">{item.id}</span>
+                    <span className="absolute -left-6 sm:-left-10 top-0 text-[#FF6B00] text-xs font-bold opacity-30 group-hover:opacity-100">{item.id}</span>
                     <h4 className="text-2xl font-bold uppercase tracking-tighter group-hover:text-[#00E5FF] transition-colors mb-3 font-sync">{item.t}</h4>
                     <p className="text-slate-500 text-[10px] uppercase leading-loose max-w-sm">{item.d}</p>
                   </div>
@@ -108,7 +108,7 @@ export default function ManifestoPage() {
                     value={manifestoQuery}
                     onChange={(e) => setManifestoQuery(e.target.value)}
                     placeholder="Question our methods..."
-                    className="bg-transparent border-b border-white/10 py-3 text-xs outline-none focus:border-[#FF6B00] font-mono whitespace-nowrap overflow-hidden text-ellipsis uppercase tracking-widest"
+                    className="bg-transparent border-b border-white/10 py-3 text-xs outline-none focus:border-[#FF6B00] font-mono uppercase tracking-[0.18em] sm:tracking-widest"
                   />
                   <button onClick={handleManifestoAsk} className="self-end p-4 bg-white/5 hover:bg-[#FF6B00] hover:text-black transition-all rounded-full">
                     <Send size={18} />
@@ -125,7 +125,7 @@ export default function ManifestoPage() {
 
           <div className="relative pt-10 lg:pt-20">
             <ScrollReveal delay={600} type="fade-up">
-              <BentoCard className="p-8 md:p-12 sticky top-32">
+              <BentoCard className="p-8 md:p-12 lg:sticky lg:top-32">
                 <div className="flex items-center gap-3 mb-8">
                   <Shield size={20} className="text-[#FF6B00]" />
                   <span className="text-xs font-bold uppercase tracking-[0.3em]">Establish_Uplink</span>

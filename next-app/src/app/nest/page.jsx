@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { teamMembers } from '@/lib/constants';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import gsap from 'gsap';
@@ -15,6 +16,14 @@ export default function NestPage() {
   const container = useRef(null);
   const [teamFilter, setTeamFilter] = useState("All");
   const [shuffledMembers, setShuffledMembers] = useState([]);
+
+  const filterKeywords = {
+    Frontend: ['frontend', 'ui/ux', 'react', 'next.js'],
+    Backend: ['backend', 'full stack', 'node', 'java', 'python', 'postgresql', 'mysql', 'system architecture'],
+    AI: ['ai', 'ml', 'rag', 'llm'],
+    AppDev: ['appdev', 'app dev', 'react native', 'flutter', 'mobile'],
+    DevOps: ['aws', 'deployment', 'devops', 'cloud', 'infrastructure', 'system architecture'],
+  };
 
   // Elite Fisher-Yates Shuffle
   const shuffle = (array) => {
@@ -88,7 +97,11 @@ export default function NestPage() {
   const membersToDisplay = shuffledMembers.length > 0 ? shuffledMembers : teamMembers;
   const visibleTeam = teamFilter === "All"
     ? membersToDisplay
-    : membersToDisplay.filter((member) => member.role === teamFilter);
+    : membersToDisplay.filter((member) => {
+      const profileText = `${member.role} ${member.tags.join(' ')}`.toLowerCase();
+      const keywords = filterKeywords[teamFilter] || [];
+      return keywords.some((keyword) => profileText.includes(keyword));
+    });
 
   const handleNodeClick = (slug) => router.push(`/nest/${slug}`);
 
@@ -114,12 +127,12 @@ export default function NestPage() {
         </div>
 
         {/* Filter Section */}
-        <div className="nest-filters flex flex-wrap gap-2 md:gap-3 mb-10 text-[10px] md:text-xs uppercase font-bold tracking-[0.2em] md:tracking-widest">
-          {['All', 'Frontend', 'Backend', 'AI', 'DevOps'].map((role) => (
+        <div className="nest-filters flex flex-wrap gap-2 md:gap-3 mb-10 text-[9px] sm:text-[10px] md:text-xs uppercase font-bold tracking-[0.12em] sm:tracking-[0.2em] md:tracking-widest">
+          {['All', 'Frontend', 'Backend', 'AI', 'AppDev', 'DevOps'].map((role) => (
             <button
               key={role}
               onClick={() => setTeamFilter(role)}
-              className={`px-4 py-2 border transition-all duration-300 ${teamFilter === role
+              className={`px-3 sm:px-4 py-2 border transition-all duration-300 ${teamFilter === role
                   ? 'border-[#00E5FF] bg-[#00E5FF]/10 text-[#00E5FF]'
                   : 'border-white/10 text-white/40 hover:text-white hover:border-white/30'
                 }`}
@@ -139,12 +152,13 @@ export default function NestPage() {
               style={{ clipPath: 'inset(100% 0% 0% 0%)' }}
             >
               {/* Profile Image */}
-              <img
+              <Image
                 src={member.image}
                 alt={member.name}
-                loading="eager"
-                fetchPriority="high"
-                className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                priority={index < 4}
+                className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
               />
 
               {/* Gradient Overlay */}
@@ -166,7 +180,7 @@ export default function NestPage() {
               </div>
 
               {/* Info Content */}
-              <div className="absolute inset-x-0 bottom-0 p-6 z-20 flex flex-col justify-end translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+              <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 z-20 flex flex-col justify-end translate-y-0 md:translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                 <div className="h-[2px] w-12 bg-[#FF6B00] mb-4 group-hover:w-full transition-all duration-700" />
 
                 <h3 className="text-2xl font-sync font-bold uppercase text-white mb-1 tracking-tighter">
@@ -177,7 +191,7 @@ export default function NestPage() {
                   {member.role}
                 </p>
 
-                <div className="max-h-0 group-hover:max-h-48 overflow-hidden transition-all duration-700 opacity-0 group-hover:opacity-100">
+                <div className="max-h-44 md:max-h-0 md:group-hover:max-h-48 overflow-hidden transition-all duration-700 opacity-100 md:opacity-0 md:group-hover:opacity-100">
                   <p className="text-[10px] text-slate-300 uppercase leading-relaxed mb-4 tracking-wide font-medium">
                     {member.bio}
                   </p>

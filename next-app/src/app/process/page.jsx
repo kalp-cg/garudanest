@@ -375,7 +375,7 @@ function ProcessShowcase() {
   }, [isPaused, stepsData.length]);
 
   return (
-    <div ref={showcaseContainer} className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-stretch relative min-h-[850px] mb-20">
+    <div ref={showcaseContainer} className="flex flex-col lg:flex-row gap-6 lg:gap-12 items-stretch relative mb-20">
       {/* Left side: Steps Selection */}
       <div
         className="w-full lg:w-[45%] flex flex-col justify-between py-2"
@@ -386,21 +386,22 @@ function ProcessShowcase() {
           <div
             key={item.step}
             onMouseEnter={() => setActiveStep(idx)}
-            className={`showcase-item group relative flex items-center gap-6 p-5 md:p-8 bg-[#0a0a0a] border border-white/5 cursor-crosshair transition-all duration-500 w-full flex-grow ${idx !== 6 ? 'mb-4' : ''} ${activeStep === idx ? 'border-[#FF6B00]/40 bg-[#0d0d0d]' : 'hover:border-white/10 opacity-40 hover:opacity-100'}`}
+            onClick={() => setActiveStep(idx)}
+            className={`showcase-item group relative flex items-center gap-3 sm:gap-6 p-4 sm:p-5 md:p-8 bg-[#0a0a0a] border border-white/5 cursor-pointer md:cursor-crosshair transition-all duration-500 w-full flex-grow ${idx !== 6 ? 'mb-4' : ''} ${activeStep === idx ? 'border-[#FF6B00]/40 bg-[#0d0d0d]' : 'hover:border-white/10 opacity-40 hover:opacity-100'}`}
           >
             <div className={`absolute top-0 left-0 h-[2px] bg-[#FF6B00] transition-all duration-[7000ms] ease-linear ${activeStep === idx && !isPaused ? 'w-full' : 'w-0'}`} />
             
-            <span className={`text-xs font-mono font-bold w-6 transition-colors ${activeStep === idx ? 'text-[#FF6B00]' : 'text-white/20'}`}>
+            <span className={`text-[10px] sm:text-xs font-mono font-bold w-5 sm:w-6 transition-colors ${activeStep === idx ? 'text-[#FF6B00]' : 'text-white/20'}`}>
               {item.step}
             </span>
 
             <div className="flex flex-col flex-1 min-w-0">
-              <h3 className={`text-base md:text-2xl font-sync font-bold uppercase tracking-tighter transition-all truncate ${activeStep === idx ? 'text-white' : 'text-white/40'}`}>
+              <h3 className={`text-sm sm:text-base md:text-2xl font-sync font-bold uppercase tracking-tight md:tracking-tighter leading-tight transition-all ${activeStep === idx ? 'text-white' : 'text-white/40'}`}>
                 {item.title}
               </h3>
               
               {/* Space-reserved container for sub-labels to prevent layout jitter */}
-              <div className={`flex items-center gap-3 transition-all duration-300 ${activeStep === idx ? 'h-5 mt-2 opacity-100' : 'h-0 mt-0 opacity-0 overflow-hidden'}`}>
+              <div className={`hidden sm:flex items-center gap-3 transition-all duration-300 ${activeStep === idx ? 'h-5 mt-2 opacity-100' : 'h-0 mt-0 opacity-0 overflow-hidden'}`}>
                 <span className="text-[8px] font-mono text-[#FF6B00] uppercase tracking-widest opacity-70 whitespace-nowrap">{item.philosophy}</span>
                 <div className="h-[1px] w-4 bg-white/10" />
                 <span className="text-[8px] font-mono text-white/30 uppercase tracking-widest whitespace-nowrap">{item.duration}</span>
@@ -408,7 +409,7 @@ function ProcessShowcase() {
             </div>
 
             {/* Logical endpoint node - Always present to maintain width parity */}
-            <div className="flex items-center justify-center w-6 h-6">
+            <div className="hidden sm:flex items-center justify-center w-6 h-6">
               <div className={`w-2 h-2 rounded-full bg-[#FF6B00] shadow-[0_0_10px_#FF6B00] transition-all duration-500 ${activeStep === idx ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`} />
             </div>
           </div>
@@ -423,12 +424,12 @@ function ProcessShowcase() {
             style={{ backgroundColor: stepsData[activeStep].color }}
           />
           <div className="relative z-10 space-y-10">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <span className="text-[9px] font-mono text-white/30 tracking-[0.4em] uppercase">Protocol: PHASE_{activeStep + 1}</span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-3 sm:gap-4">
+                <span className="text-[9px] font-mono text-white/30 tracking-[0.2em] sm:tracking-[0.4em] uppercase">Protocol: PHASE_{activeStep + 1}</span>
                 <div className="h-[1px] w-12 bg-white/5" />
               </div>
-              <span className="text-[9px] font-mono text-[#FF6B00] uppercase tracking-widest">Est_Time: {stepsData[activeStep].duration}</span>
+              <span className="text-[9px] font-mono text-[#FF6B00] uppercase tracking-[0.18em] sm:tracking-widest">Est_Time: {stepsData[activeStep].duration}</span>
             </div>
             <div>
               <h2 className="text-3xl md:text-6xl font-sync font-bold uppercase mb-6 tracking-tighter leading-none text-white transition-all duration-300">
@@ -454,7 +455,7 @@ function ProcessShowcase() {
                 <p className="text-[11px] text-[#00E5FF] font-bold uppercase tracking-wider">{stepsData[activeStep].advantage}</p>
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-12 pt-4">
               <div className="space-y-6">
                 <span className="text-[9px] font-bold text-white/30 uppercase tracking-[0.4em] block">Developer_Stack</span>
                 <ul className="space-y-3">
@@ -488,9 +489,12 @@ function ProcessShowcase() {
                 <p className="text-[11px] text-white font-bold uppercase tracking-wider">{stepsData[activeStep].result}</p>
               </div>
             </div>
-            <div className="flex items-center justify-between opacity-20">
-              <span className="text-[9px] font-mono text-white/10 uppercase tracking-widest leading-none">
+            <div className="flex items-center justify-between opacity-20 gap-4">
+              <span className="hidden sm:block text-[9px] font-mono text-white/10 uppercase tracking-widest leading-none">
                 SYSTEM_AUTH_KEY: GS_0x{activeStep + 1}AF_NEST
+              </span>
+              <span className="sm:hidden text-[9px] font-mono text-white/20 uppercase tracking-[0.2em] leading-none">
+                GS_0x{activeStep + 1}AF
               </span>
               <div className="flex gap-2">
                 {stepsData.map((_, i) => (

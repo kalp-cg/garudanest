@@ -186,7 +186,7 @@ export default function StudioPage() {
   }, { scope: container, dependencies: [activeFilter, visibleCount] });
 
   return (
-    <div ref={container} className="relative pt-32 pb-20 px-6 bg-[#050505] min-h-screen font-space overflow-hidden">
+    <div ref={container} className="relative pt-32 pb-20 px-4 sm:px-6 bg-[#050505] min-h-screen font-space overflow-hidden">
       {/* IMMERSIVE AURORA BACKDROP */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute top-[10%] left-[-10%] w-[50%] h-[50%] bg-[#FF6B00]/[0.03] blur-[120px] rounded-full animate-pulse" style={{ animationDuration: '8s' }}></div>
@@ -205,7 +205,7 @@ export default function StudioPage() {
             Studio <span className="text-[#00E5FF]">Archives</span>
           </h2>
           
-          <p className="studio-sub max-w-2xl mt-6 text-slate-400 text-xs md:text-sm uppercase tracking-widest leading-relaxed font-medium">
+          <p className="studio-sub max-w-2xl mt-6 text-slate-400 text-xs md:text-sm uppercase tracking-[0.14em] md:tracking-widest leading-relaxed font-medium">
             Visual documentation of our collective execution, group participation, and the reality of elite engineering.
           </p>
 
@@ -218,7 +218,7 @@ export default function StudioPage() {
           <div className="studio-filters flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 border-b border-white/10 pb-4">
             <div className="flex items-center gap-3">
                 <Camera size={16} className="text-[#00E5FF]" />
-                <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-white">Active_Deployments // 0xAF4</span>
+                <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.18em] md:tracking-[0.3em] text-white">Active_Deployments // 0xAF4</span>
             </div>
 
             {/* ── HARDWARE FILTER TABS ── */}
@@ -244,7 +244,7 @@ export default function StudioPage() {
                     {/* Active Background Glow */}
                     <div className={`absolute inset-0 bg-[#00E5FF]/[0.05] transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-0'}`} />
                     
-                    <span className="relative z-10 text-[9px] md:text-[10px] uppercase tracking-[0.2em] font-mono flex items-center gap-2">
+                    <span className="relative z-10 text-[9px] md:text-[10px] uppercase tracking-[0.12em] md:tracking-[0.2em] font-mono flex items-center gap-2">
                       {isActive && <div className="w-1.5 h-1.5 bg-[#00E5FF] rounded-full animate-pulse shadow-[0_0_8px_#00E5FF]" />}
                       {cat}
                     </span>
@@ -363,7 +363,7 @@ export default function StudioPage() {
                         <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest border border-white/10 px-3 py-1 bg-black/20 rounded-sm">{selectedImage.category}</span>
                     </div>
                     
-                    <h3 className="text-4xl md:text-6xl font-sync font-bold text-white uppercase tracking-tighter mb-6">{selectedImage.title}</h3>
+                    <h3 className="text-3xl sm:text-4xl md:text-6xl font-sync font-bold text-white uppercase tracking-tight md:tracking-tighter mb-6">{selectedImage.title}</h3>
                     <div className="h-[2px] w-20 bg-[#FF6B00] mb-8 opacity-80"></div>
                     
                     <p className="text-xs md:text-sm text-slate-400 uppercase leading-[2] tracking-widest font-medium mb-12 max-w-xl">

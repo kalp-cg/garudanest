@@ -36,7 +36,7 @@ export default function HirePage() {
   };
 
   return (
-    <div className="pt-32 pb-20 px-6">
+    <div className="pt-32 pb-20 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto px-4 md:px-0">
         {/* Header Section */}
         <div className="relative group mb-16 md:mb-24 pt-12 md:pt-16">
@@ -48,7 +48,7 @@ export default function HirePage() {
             Begin Your <span className="text-[#FF6B00]">System Audit</span>
           </h2>
 
-          <p className="max-w-2xl mt-6 text-slate-400 text-xs md:text-sm uppercase tracking-widest leading-relaxed font-medium">
+          <p className="max-w-2xl mt-6 text-xs md:text-sm text-slate-400 uppercase tracking-[0.14em] md:tracking-widest leading-relaxed font-medium">
             We don't just build features; we architect certainty. Brief us on your technical obstacles below.
           </p>
 

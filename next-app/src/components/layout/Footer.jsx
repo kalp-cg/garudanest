@@ -34,12 +34,12 @@ export const Footer = () => (
     
     <div className="max-w-7xl mx-auto relative z-10">
       <div className="flex flex-col md:flex-row justify-between items-center gap-16 md:gap-20 mb-20 md:mb-40">
-        <h2 className="text-[15vw] sm:text-[12vw] font-sync font-black tracking-tighter leading-none italic uppercase group text-center md:text-left">
+        <h2 className="text-[13vw] sm:text-[12vw] font-sync font-black tracking-tight sm:tracking-tighter leading-none italic uppercase group text-center md:text-left">
           LET'S <br className="md:hidden" /> <span className="text-[#FF6B00] group-hover:text-[#00E5FF] transition-colors duration-1000">F***ING</span> <br /> BUILD.
         </h2>
         <div className="flex flex-col gap-6 w-full md:w-auto text-center md:text-left items-center md:items-start">
-          <span className="text-[10px] text-[#FF6B00] font-bold tracking-[0.5em] uppercase">Initialize Connection</span>
-          <a href={`mailto:${BRAND.email}`} className="text-xl sm:text-2xl md:text-4xl font-bold border-b-2 border-[#00E5FF] pb-4 hover:tracking-widest transition-all uppercase font-sync break-all px-4 sm:px-0">
+          <span className="text-[10px] text-[#FF6B00] font-bold tracking-[0.32em] sm:tracking-[0.5em] uppercase">Initialize Connection</span>
+          <a href={`mailto:${BRAND.email}`} className="text-lg sm:text-2xl md:text-4xl font-bold border-b-2 border-[#00E5FF] pb-4 hover:tracking-wide sm:hover:tracking-widest transition-all uppercase font-sync break-all px-4 sm:px-0">
             {BRAND.email}
           </a>
           <div className="flex gap-8 mt-6 justify-center md:justify-start">
@@ -50,7 +50,7 @@ export const Footer = () => (
         </div>
       </div>
       
-      <div className="flex flex-col md:flex-row justify-between items-center pt-10 border-t border-white/5 text-[9px] text-white/20 uppercase tracking-[0.3em] md:tracking-[0.5em] font-bold gap-4 text-center">
+      <div className="flex flex-col md:flex-row justify-between items-center pt-10 border-t border-white/5 text-[9px] text-white/20 uppercase tracking-[0.18em] sm:tracking-[0.3em] md:tracking-[0.5em] font-bold gap-4 text-center">
         <span>MADE BY <span className="text-white">ARYA PATEL</span> // GARUDANEST COLLECTIVE</span>
         <span className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div> 

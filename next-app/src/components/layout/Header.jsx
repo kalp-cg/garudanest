@@ -79,7 +79,7 @@ export const Header = () => {
       <nav
         className={[
           "fixed top-0 left-0 right-0 z-[80]",
-          "px-6 md:px-10 py-5 md:py-6",
+          "px-4 sm:px-6 md:px-10 py-5 md:py-6",
           "transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
           isVisible ? "translate-y-0" : "-translate-y-full",
           isScrolled
@@ -94,7 +94,7 @@ export const Header = () => {
               glow={true}
               className="w-8 h-8 md:w-10 md:h-10 text-[#FF6B00] drop-shadow-[0_0_6px_rgba(255,107,0,0.3)] transition-all duration-300 group-hover:drop-shadow-[0_0_10px_rgba(255,107,0,0.5)]" 
             />
-            <span className="font-sync font-bold text-xs md:text-base tracking-[0.12em] uppercase text-white group-hover:text-[#00E5FF] transition-all duration-300">
+            <span className="font-sync font-bold text-[11px] sm:text-xs md:text-base tracking-[0.08em] sm:tracking-[0.12em] uppercase text-white group-hover:text-[#00E5FF] transition-all duration-300">
               garudanest
             </span>
           </Link>
@@ -150,7 +150,7 @@ export const Header = () => {
           mobileMenuOpen ? "max-h-[600px] opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-2 pointer-events-none",
         ].join(" ")}
       >
-        <div className="flex flex-col gap-0 p-6 text-[11px] uppercase font-bold tracking-[0.3em]">
+        <div className="flex flex-col gap-0 p-6 text-[11px] uppercase font-bold tracking-[0.2em] sm:tracking-[0.3em]">
           {navLinks.map((link, i) => (
             <Link
               key={link.label}

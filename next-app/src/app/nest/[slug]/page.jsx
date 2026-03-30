@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { teamMembers } from '@/lib/constants';
 import { X as CloseIcon, Terminal, ShieldAlert, Cpu, Network, ExternalLink } from 'lucide-react'; 
 
@@ -102,10 +103,12 @@ export default function PersonnelPage() {
                 style={{ transform: `translateY(-${scrollOffset}px)` }}
             >
                 <div className={`relative w-full h-full bg-black border-r border-white/5 transition-transform duration-[1.5s] ease-out ${isLoaded ? 'translate-x-0' : '-translate-x-[100%]'}`}>
-                    <img 
+                    <Image 
                         src={member.image} 
                         alt={member.name}
-                        className="absolute inset-0 w-full h-full object-cover object-center grayscale opacity-80"
+                        fill
+                        priority
+                        className="object-cover object-center grayscale opacity-80"
                     />
                     
                     {/* Simulated scanning laser line */}

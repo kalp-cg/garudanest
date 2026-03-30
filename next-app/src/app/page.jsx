@@ -8,6 +8,7 @@ import {
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from 'next/image';
 import { BRAND, teamMembers, projects, testimonials } from '@/lib/constants';
 import { GarudaLogo } from '@/components/ui/GarudaLogo';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
@@ -80,6 +81,7 @@ export default function App() {
   // --- Team Grid Engine (Waits for shuffle) ---
   useGSAP(() => {
     if (shuffledMembers.length === 0) return;
+    const allowMouseTilt = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
     // Staggered team card reveals via clip-path
     gsap.utils.toArray('.nest-card').forEach((card, i) => {
@@ -96,22 +98,24 @@ export default function App() {
         }
       );
 
-      // 3D portrait tilt on mouse move
-      const onMove = (e) => {
-        const rect = card.getBoundingClientRect();
-        const dx = (e.clientX - rect.left - rect.width / 2) / rect.width;
-        const dy = (e.clientY - rect.top - rect.height / 2) / rect.height;
-        gsap.to(card, {
-          rotationY: dx * 12,
-          rotationX: -dy * 8,
-          transformPerspective: 700,
-          duration: 0.4,
-          ease: 'power3.out',
-        });
-      };
-      const onLeave = () => gsap.to(card, { rotationY: 0, rotationX: 0, duration: 0.7, ease: 'elastic.out(1,0.5)' });
-      card.addEventListener('mousemove', onMove);
-      card.addEventListener('mouseleave', onLeave);
+      // 3D portrait tilt on mouse move (desktop pointers only)
+      if (allowMouseTilt) {
+        const onMove = (e) => {
+          const rect = card.getBoundingClientRect();
+          const dx = (e.clientX - rect.left - rect.width / 2) / rect.width;
+          const dy = (e.clientY - rect.top - rect.height / 2) / rect.height;
+          gsap.to(card, {
+            rotationY: dx * 12,
+            rotationX: -dy * 8,
+            transformPerspective: 700,
+            duration: 0.4,
+            ease: 'power3.out',
+          });
+        };
+        const onLeave = () => gsap.to(card, { rotationY: 0, rotationX: 0, duration: 0.7, ease: 'elastic.out(1,0.5)' });
+        card.addEventListener('mousemove', onMove);
+        card.addEventListener('mouseleave', onLeave);
+      }
     });
 
     // Refresh ScrollTrigger as the layout has shifted with new cards
@@ -156,28 +160,29 @@ export default function App() {
 
 
       {/* HERO SECTION */}
-      <section className="relative min-h-[90vh] md:min-h-screen flex flex-col justify-center px-6 md:px-10 pt-32 md:pt-20">
+      <section className="relative min-h-[90vh] md:min-h-screen flex flex-col justify-center px-3 sm:px-6 md:px-10 pt-32 md:pt-20">
         <div className="max-w-7xl mx-auto w-full relative">
           <div className="flex items-center gap-3 mb-8 md:mb-10 hero-node opacity-0 -translate-x-4">
             <div className="h-[1px] w-12 md:w-16 bg-[#FF6B00]"></div>
-            <span className="text-[9px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.5em] text-[#FF6B00] font-bold">Node 0x1 // MADE BY ARYA PATEL // Est. 2026</span>
+            <span className="sm:hidden text-[8px] uppercase tracking-[0.22em] text-[#FF6B00] font-bold leading-relaxed">Node 0x1 // Est. 2026</span>
+            <span className="hidden sm:inline text-[9px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.5em] text-[#FF6B00] font-bold leading-relaxed">Node 0x1 // MADE BY ARYA PATEL // Est. 2026</span>
           </div>
 
-          <h1 className="font-sync text-6xl sm:text-8xl md:text-[11vw] font-black leading-[0.9] md:leading-[0.8] uppercase tracking-tighter mb-12 md:mb-16 relative perspective-1000">
+          <h1 className="font-sync text-[clamp(2.15rem,13vw,3.9rem)] sm:text-8xl md:text-[11vw] font-black leading-[0.95] md:leading-[0.8] uppercase tracking-tight sm:tracking-tighter mb-10 md:mb-16 relative perspective-1000">
             <span className="block italic text-white/50 hover:text-white transition-colors duration-500 relative z-0 hero-building opacity-0">
               BUILDING
             </span>
-            <span className="block ml-[4vw] text-[#FF6B00] relative z-10 hero-systems opacity-0">
+            <span className="block ml-0 sm:ml-[4vw] text-[#FF6B00] relative z-10 hero-systems opacity-0">
               SYST3MS
             </span>
-            <span className="block text-right mr-[4vw] text-[#00E5FF] hero-soar opacity-0">
+            <span className="block text-right mr-0 sm:mr-[4vw] text-[#00E5FF] hero-soar opacity-0 whitespace-nowrap text-[clamp(1.85rem,10vw,3.2rem)] sm:text-[clamp(2.15rem,13vw,3.9rem)] md:text-[11vw] leading-none">
               THAT SOAR
             </span>
           </h1>
 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10 md:gap-12">
             <div className="max-w-md border-l-2 border-white/10 pl-6 md:pl-8 relative hero-desc opacity-0">
-              <p className="text-[11px] sm:text-xs md:text-sm leading-relaxed text-slate-400 uppercase font-bold">
+              <p className="text-[10px] sm:text-xs md:text-sm leading-relaxed text-slate-400 uppercase font-bold">
                 Not an agency. Not a factory. <br />
                 We are a high-velocity engineering collective <br />
                 architecting the next phase of digital infrastructure.
@@ -285,12 +290,13 @@ export default function App() {
                 style={{ clipPath: 'inset(100% 0% 0% 0%)' }}
               >
                 {/* Profile Image */}
-                <img
+                <Image
                   src={member.image}
                   alt={member.name}
-                  loading="eager"
-                  fetchPriority="high"
-                  className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  priority={index < 4}
+                  className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
                 />
 
                 {/* Gradient Overlay */}

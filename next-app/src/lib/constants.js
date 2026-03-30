@@ -20,7 +20,7 @@ export const teamMembers = [
   { 
     name: "Kalpan Kaneriya", 
     slug: "kalpan-kaneriya", 
-    role: "Frontend & AppDev", 
+    role: "System Architecture & AppDev", 
     email: "kalpankaneriya@gmail.com",
     portfolio: "https://kalpankaneriya.in/",
     bio: "Full-Stack Engineer specializing in System Architecture and Optimize Performance.", 
@@ -99,7 +99,7 @@ export const teamMembers = [
     github: "https://github.com/aryapatel23",
     linkedin: "https://www.linkedin.com/in/arya-patel-profile/",
     x: "https://x.com/AryapatelCG",
-    image: "https://res.cloudinary.com/dzsvjyg2c/image/upload/v1774675438/1279d915-53ad-44b7-ad38-caa434ff8915.png" 
+    image: "https://res.cloudinary.com/dzsvjyg2c/image/upload/v1774861707/WhatsApp_Image_2026-03-30_at_2.36.01_PM_ii1mi9.jpg" 
   },
   { 
     name: "Dax Patel", 
