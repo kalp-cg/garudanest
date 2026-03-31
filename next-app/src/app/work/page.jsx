@@ -16,6 +16,7 @@ export default function WorkPage() {
   const [selectedProject, setSelectedProject] = useState(null);
 
   useGSAP(() => {
+    const allowMouseTilt = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     // ── Header stagger timeline ────────────────────────────────────────────
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
     tl.fromTo('.work-ghost',
@@ -75,33 +76,35 @@ export default function WorkPage() {
         );
       }
 
-      // 3D tilt on mouse move
-      const onMove = (e) => {
-        const rect = card.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const dx = (e.clientX - cx) / rect.width;
-        const dy = (e.clientY - cy) / rect.height;
-        gsap.to(card, {
-          rotationY: dx * 8,
-          rotationX: -dy * 6,
-          transformPerspective: 900,
-          ease: 'power3.out',
-          duration: 0.5,
-        });
-      };
+      // 3D tilt on mouse move (desktop pointers only)
+      if (allowMouseTilt) {
+        const onMove = (e) => {
+          const rect = card.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2;
+          const dx = (e.clientX - cx) / rect.width;
+          const dy = (e.clientY - cy) / rect.height;
+          gsap.to(card, {
+            rotationY: dx * 8,
+            rotationX: -dy * 6,
+            transformPerspective: 900,
+            ease: 'power3.out',
+            duration: 0.5,
+          });
+        };
 
-      const onLeave = () => {
-        gsap.to(card, {
-          rotationY: 0,
-          rotationX: 0,
-          duration: 0.7,
-          ease: 'elastic.out(1, 0.5)',
-        });
-      };
+        const onLeave = () => {
+          gsap.to(card, {
+            rotationY: 0,
+            rotationX: 0,
+            duration: 0.7,
+            ease: 'elastic.out(1, 0.5)',
+          });
+        };
 
-      card.addEventListener('mousemove', onMove);
-      card.addEventListener('mouseleave', onLeave);
+        card.addEventListener('mousemove', onMove);
+        card.addEventListener('mouseleave', onLeave);
+      }
     });
 
   }, { scope: container });
@@ -195,14 +198,14 @@ export default function WorkPage() {
                 {/* Footer glow line on hover */}
                 <div className="absolute bottom-0 left-0 h-[1px] w-0 bg-gradient-to-r from-[#FF6B00] to-[#00E5FF] group-hover:w-full transition-all duration-700" />
 
-                <div className="flex gap-8 relative z-20">
+                <div className="flex flex-wrap gap-4 sm:gap-8 relative z-20">
                   {project.playStore ? (
                     <a 
                       href={project.playStore} 
                       target="_blank" 
                       rel="noopener noreferrer" 
                       onClick={(e) => { e.stopPropagation(); }}
-                      className="text-[10px] uppercase font-bold tracking-[0.3em] text-[#00E5FF] hover:text-white transition-colors flex items-center gap-2 group/link"
+                      className="text-[10px] uppercase font-bold tracking-[0.16em] sm:tracking-[0.3em] text-[#00E5FF] hover:text-white transition-colors flex items-center gap-2 group/link"
                     >
                       Live <ArrowRight size={10} className="group-hover/link:translate-x-1 transition-transform" />
                     </a>
@@ -210,7 +213,7 @@ export default function WorkPage() {
                     <a 
                       href={project.live} 
                       onClick={(e) => { e.stopPropagation(); }}
-                      className="text-[10px] uppercase font-bold tracking-[0.3em] text-white hover:text-[#00E5FF] transition-colors flex items-center gap-2 group/link"
+                      className="text-[10px] uppercase font-bold tracking-[0.16em] sm:tracking-[0.3em] text-white hover:text-[#00E5FF] transition-colors flex items-center gap-2 group/link"
                     >
                       Live Demo <ArrowRight size={10} className="group-hover/link:translate-x-1 transition-transform" />
                     </a>
@@ -222,13 +225,13 @@ export default function WorkPage() {
                       target="_blank" 
                       rel="noopener noreferrer" 
                       onClick={(e) => { e.stopPropagation(); }}
-                      className="text-[10px] uppercase font-bold tracking-[0.3em] text-white/40 hover:text-white transition-colors flex items-center gap-2 group/link"
+                      className="text-[10px] uppercase font-bold tracking-[0.16em] sm:tracking-[0.3em] text-white/40 hover:text-white transition-colors flex items-center gap-2 group/link"
                     >
                       Github <ArrowRight size={10} className="group-hover/link:translate-x-1 transition-transform" />
                     </a>
                   )}
                 </div>
-                <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="hidden sm:flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                   <span className="text-[10px] text-[#FF6B00] uppercase font-bold tracking-widest">View Intel</span>
                   <ChevronRight size={12} className="text-[#FF6B00]" />
                 </div>

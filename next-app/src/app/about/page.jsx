@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Zap, Cpu, Globe, Shield, ArrowRight, Users, Terminal } from 'lucide-react';
 import { teamMembers } from '@/lib/constants';
 import Link from 'next/link';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -12,6 +13,20 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export default function AboutPage() {
   const container = useRef(null);
+  const [shuffledMembers, setShuffledMembers] = useState([]);
+
+  const shuffle = (array) => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
+
+  useEffect(() => {
+    setShuffledMembers(shuffle(teamMembers));
+  }, []);
 
   useGSAP(() => {
     // Header timeline
@@ -158,10 +173,12 @@ export default function AboutPage() {
         {/* ── IMMERSIVE TEAM PHOTO BREAK ── */}
         <div className="reveal-up mb-32 relative h-[400px] md:h-[600px] w-full border border-white/5 bg-[#0a0a0a] overflow-hidden group">
             {/* Parallax Image Scale on Hover */}
-            <img 
+            <Image
               src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop" 
               alt="Engineering Team Discussion" 
-              className="absolute inset-0 w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-[1500ms] ease-out scale-105 group-hover:scale-100"
+              fill
+              sizes="100vw"
+              className="object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-[1500ms] ease-out scale-105 group-hover:scale-100"
             />
             {/* HUD Corner Elements */}
             <div className="absolute top-6 left-6 w-8 h-8 border-t border-l border-[#00E5FF]/40 pointer-events-none" />
@@ -172,13 +189,13 @@ export default function AboutPage() {
             {/* Gradient Overlay */}
             <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent z-10 pointer-events-none" />
             
-            <div className="absolute bottom-10 left-10 z-20 pointer-events-none">
+            <div className="absolute bottom-6 left-5 right-5 sm:bottom-10 sm:left-10 sm:right-auto z-20 pointer-events-none">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full animate-pulse" />
-                  <span className="text-[10px] font-mono text-white/50 uppercase tracking-[0.4em]">Visual_Log // 0xAF_Discussion</span>
+                  <span className="text-[9px] sm:text-[10px] font-mono text-white/50 uppercase tracking-[0.2em] sm:tracking-[0.4em]">Visual_Log // 0xAF_Discussion</span>
                 </div>
-                <h3 className="text-3xl md:text-5xl font-sync font-bold text-white tracking-tighter uppercase mb-4">Architectural Alignment</h3>
-                <p className="text-[11px] text-slate-300 uppercase tracking-widest max-w-xl leading-relaxed border-l-2 border-[#00E5FF] pl-4 bg-white/[0.02] py-2">
+                <h3 className="text-2xl sm:text-3xl md:text-5xl font-sync font-bold text-white tracking-tight md:tracking-tighter uppercase mb-3 sm:mb-4 leading-tight">Architectural Alignment</h3>
+                <p className="text-[10px] sm:text-[11px] text-slate-300 uppercase tracking-[0.12em] sm:tracking-widest max-w-[85vw] sm:max-w-xl leading-relaxed border-l-2 border-[#00E5FF] pl-3 sm:pl-4 bg-white/[0.02] py-2">
                   Cross-validating system logic before committing to production repositories. Elite engineering requires consensus, not hierarchy.
                 </p>
             </div>
@@ -186,19 +203,19 @@ export default function AboutPage() {
 
         {/* ── GENESIS PROTOCOL (DECRYPTED BLOCKS) ── */}
         <div className="mb-40 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start border-l border-white/5 pl-8 md:pl-16 relative z-10">
-            <div className="sticky top-40 pt-4 reveal-left">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-start border-l border-white/5 pl-5 sm:pl-8 md:pl-16 relative z-10">
+            <div className="reveal-left lg:sticky lg:top-40 pt-2 md:pt-4">
               <div className="flex items-center gap-3 mb-8">
                 <Terminal size={16} className="text-[#00E5FF]" />
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#00E5FF]">Terminal_Briefing // Genesis</span>
               </div>
-              <h2 className="text-4xl md:text-6xl font-sync font-bold uppercase text-white tracking-tighter leading-none mb-10">
+              <h2 className="text-3xl sm:text-4xl md:text-6xl font-sync font-bold uppercase text-white tracking-tight md:tracking-tighter leading-none mb-8 md:mb-10">
                 The <span className="text-[#FF6B00]">Genesis</span> <br /> Protocol.
               </h2>
               <div className="h-[1px] w-20 bg-[#FF6B00] opacity-40"></div>
             </div>
 
-            <div className="space-y-10 text-slate-400 text-xs md:text-sm uppercase leading-loose tracking-widest font-medium">
+            <div className="space-y-8 md:space-y-10 text-slate-400 text-[11px] md:text-sm uppercase leading-relaxed md:leading-loose tracking-[0.14em] md:tracking-widest font-medium">
               {[
                 { title: '01_THE_JAIPUR_ORIGIN', text: 'GarudaNest was forged in the heat of a 24-hour Jaipur hackathon, where we witnessed the failure of "legacy" innovation. We saw that the industry was broken—bloated with overhead and rewards for proximity over technical performance. Our mission was born: to build a direct path between ambitious client visions and raw architectural mastery.' },
                 { title: '02_MISSION_PROTOCOL', text: 'We bypassed the traditional agency bloat to form an elite tactical collective. Our directive is simple: Provide clients with 100% technical autonomy. We don’t just build code; we take full ownership of a client’s project, engineer the highest-velocity solution, and deliver a sovereign digital empire back to the partner.' },
@@ -234,15 +251,21 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
-            {teamMembers.map((member, i) => (
-              <div key={i} className="reveal-up group relative aspect-[3/4] overflow-hidden bg-[#0a0a0a] border border-white/5 hover:border-[#00E5FF]/40 transition-all duration-500 flex flex-col justify-end p-6 cursor-crosshair">
+            {(shuffledMembers.length > 0 ? shuffledMembers : teamMembers).map((member, i) => (
+              <Link 
+                key={i} 
+                href={`/nest/${member.slug}`}
+                className="reveal-up group relative aspect-[3/4] overflow-hidden bg-[#0a0a0a] border border-white/5 hover:border-[#00E5FF]/40 transition-all duration-500 flex flex-col justify-end p-6 cursor-pointer"
+              >
                 
                 {/* Immersive Image */}
                 <div className="absolute inset-0">
-                  <img 
+                  <Image
                     src={member.image} 
                     alt={member.name}
-                    className="w-full h-full object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-[800ms] scale-105 group-hover:scale-100"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    className="object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-[800ms] scale-105 group-hover:scale-100"
                   />
                   {/* Custom Scan Line Texture */}
                   <div className="absolute inset-0 pointer-events-none opacity-[0.1] z-10" 
@@ -264,15 +287,18 @@ export default function AboutPage() {
 
                 {/* Info Container */}
                 <div className="relative z-20 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                    <h4 className="text-xl md:text-2xl font-sync font-bold text-white uppercase tracking-tighter mb-1">{member.name}</h4>
-                    <p className="text-[9px] font-bold font-mono text-[#00E5FF] uppercase tracking-widest mb-3 opacity-90">{member.role} // Freelance Expert</p>
+                    <h4 className="text-lg sm:text-xl md:text-2xl font-sync font-bold text-white uppercase tracking-tight md:tracking-tighter mb-1 leading-tight">{member.name}</h4>
+                    <p className="text-[8px] sm:text-[9px] font-bold font-mono text-[#00E5FF] uppercase tracking-[0.12em] sm:tracking-widest mb-3 opacity-90 leading-relaxed">
+                      <span className="sm:hidden">{member.role}</span>
+                      <span className="hidden sm:inline">{member.role} // Freelance Expert</span>
+                    </p>
                     
                     {/* Progress indicator line */}
                     <div className="h-[2px] w-8 bg-white/20 group-hover:w-full transition-all duration-700 delay-100 relative overflow-hidden">
                       <div className="absolute inset-y-0 left-0 w-full bg-[#00E5FF] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out" />
                     </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
@@ -285,22 +311,24 @@ export default function AboutPage() {
 
         {/* ── SECONDARY IMMERSIVE PHOTO ── */}
         <div className="reveal-up mb-32 relative h-[300px] w-full border border-white/5 bg-[#0a0a0a] overflow-hidden group">
-            <img 
+            <Image
               src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop" 
               alt="Elite Development Focus" 
-              className="absolute inset-0 w-full h-full object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-60 transition-all duration-[2000ms] scale-105 group-hover:scale-100"
+              fill
+              sizes="100vw"
+              className="object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-60 transition-all duration-[2000ms] scale-105 group-hover:scale-100"
             />
             {/* Horizontal scan line animation */}
             <div className="absolute inset-x-0 top-0 h-[2px] bg-[#FF6B00]/40 animate-[scanVertical_8s_linear_infinite]" />
 
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-               <div className="relative border border-[#FF6B00]/20 p-8 backdrop-blur-sm bg-black/20">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 px-4">
+               <div className="relative border border-[#FF6B00]/20 px-4 py-5 sm:p-8 backdrop-blur-sm bg-black/20 max-w-[92vw] sm:max-w-none">
                  <div className="absolute -top-1 -left-1 w-2 h-2 border-t-2 border-l-2 border-[#FF6B00]" />
                  <div className="absolute -top-1 -right-1 w-2 h-2 border-t-2 border-r-2 border-[#FF6B00]" />
                  <div className="absolute -bottom-1 -left-1 w-2 h-2 border-b-2 border-l-2 border-[#FF6B00]" />
                  <div className="absolute -bottom-1 -right-1 w-2 h-2 border-b-2 border-r-2 border-[#FF6B00]" />
-                 <p className="text-white/80 font-sync font-bold text-3xl md:text-6xl tracking-tighter uppercase">Deep_Focus_Mode</p>
-                 <p className="text-[#FF6B00] text-center text-[9px] font-mono tracking-[0.4em] uppercase mt-2">Active Synthesis</p>
+                 <p className="text-white/80 font-sync font-bold text-[clamp(1.4rem,9vw,3.2rem)] md:text-6xl tracking-tight md:tracking-tighter uppercase text-center break-all leading-tight">Deep_Focus_Mode</p>
+                 <p className="text-[#FF6B00] text-center text-[9px] font-mono tracking-[0.2em] sm:tracking-[0.4em] uppercase mt-2">Active Synthesis</p>
                </div>
             </div>
             
@@ -315,23 +343,23 @@ export default function AboutPage() {
         </div>
 
         {/* ── FINAL COMMAND INTERFACE ── */}
-        <div className="reveal-up relative bg-white/[0.02] border border-white/5 p-12 md:p-24 text-center rounded-sm overflow-hidden">
+        <div className="reveal-up relative bg-white/[0.02] border border-white/5 p-6 sm:p-10 md:p-24 text-center rounded-sm overflow-hidden">
             {/* Holographic Background Ticker */}
             <div className="absolute inset-0 opacity-[0.02] font-mono text-[80px] md:text-[120px] font-black uppercase tracking-widest flex items-center justify-center select-none pointer-events-none whitespace-nowrap overflow-hidden">
               <span className="animate-pulse">TRANSMISSION_COMPLETE_0x99</span>
             </div>
 
             <div className="relative z-10">
-                <p className="text-[10px] text-white/40 uppercase tracking-[0.5em] mb-10">Transmission Terminal Ready</p>
-                <h2 className="text-3xl md:text-6xl font-sync font-bold uppercase text-white tracking-tighter mb-12 leading-none">
+                <p className="text-[10px] text-white/40 uppercase tracking-[0.2em] sm:tracking-[0.5em] mb-8 sm:mb-10">Transmission Terminal Ready</p>
+                <h2 className="text-2xl sm:text-3xl md:text-6xl font-sync font-bold uppercase text-white tracking-tight md:tracking-tighter mb-10 sm:mb-12 leading-tight md:leading-none">
                   Ready to <span className="text-[#FF6B00]">Build</span> Your <span className="text-[#00E5FF]">Empire?</span>
                 </h2>
                 
                 <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
-                    <a href="/manifesto" className="bg-[#FF6B00] text-black px-12 py-5 font-black text-xs uppercase hover:bg-white transition-all shadow-[0_10px_30px_rgba(255,107,0,0.15)] group flex items-center justify-center gap-3 w-full md:w-auto">
+                  <a href="/manifesto" className="bg-[#FF6B00] text-black px-8 sm:px-12 py-5 font-black text-xs uppercase hover:bg-white transition-all shadow-[0_10px_30px_rgba(255,107,0,0.15)] group flex items-center justify-center gap-3 w-full md:w-auto">
                         Initialize Gateway <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                     </a>
-                    <a href="/work" className="border border-white/20 px-12 py-5 font-bold text-xs uppercase text-white hover:border-[#00E5FF] hover:text-[#00E5FF] transition-all w-full md:w-auto">
+                  <a href="/work" className="border border-white/20 px-8 sm:px-12 py-5 font-bold text-xs uppercase text-white hover:border-[#00E5FF] hover:text-[#00E5FF] transition-all w-full md:w-auto">
                         Review Protocol Logs
                     </a>
                 </div>
